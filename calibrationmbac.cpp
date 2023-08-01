@@ -1137,7 +1137,7 @@ bool CalibrationMBAC::sendCommandDac(SPort* sPort,
 bool CalibrationMBAC::readUncalibratedADCval(SPort* sPort, DataModules* modul, quint8 command, QLineEdit *qline, QSpinBox *qspin){
     int groupBtn = 0, numberBtn = 0, maBtn=0;
     getRadioBtnPush(idRadioBtn, &groupBtn, &numberBtn, &maBtn);
-    //double iGiven = getGivenValue(maBtn);
+    //double iGiven = getGivenValue(maBtn);! не удаляем !
 
     bool retOk = false, ok;
     quint8 adrMod = static_cast<quint8>(modul->getAddrDecMod().toUInt(&ok, 10));
