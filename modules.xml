@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<!-- Файл конфигурации программы CMBB -->
+<Document>
+    <!-- Описание всевозможных типов модулей -->
+    <Modules>
+        <Module Type="0" Name="РДС" Color="13762468" />
+        <Module Type="1" Name="КДС" Color="14145535" />
+        <Module Type="2" Name="ННС" Color="13739263" />
+        <Module Type="3" Name="НВС" Color="16777153" />
+        <Module Type="4" Name="МАС" Color="11308970" />
+        <Module Type="5" Name="МНС 3U" Color="13286122" />
+        <Module Type="6" Name="МСУ 3U" Color="11661188" />	
+        <Module Type="7" Name="МВС 3U" Color="16777089" />	
+        <Module Type="8" Name="МАС 3U" Color="15708097" />	
+        <Module Type="9" Name="МВАС" Color="11726521" />	
+        <Module Type="10" Name="МАС СТ" Color="10526970" />			        
+		<Module Type="11" Name="МДГ" Color="10539248" />			
+		<Module Type="12" Name="МВР-8М" Color="16747520" />	
+	</Modules>
+</Document>

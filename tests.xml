@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<!-- Файл конфигурации программы CMBB -->
+<Document>
+    <!-- Описание тестов модулей -->
+    <Tests>
+        <Test Nex="1" N="1" ImageIndex="6" Buttons="8" Mbb="255">
+            <Caption>Проверка внутренних таймеров микроконтроллера</Caption>
+            <Abstract>В этом тесте таймеры объекта контроля сравниваются с таймерами технологического модуля.</Abstract>
+            <Message>Для завершения теста потребуется 1 минута. Нажмите клавишу &apos;&apos;Стоп&apos;&apos; для экстренного прерывания теста (затем потребуется перезагрузка модулей) ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="7" >Ошибка таймера 0 (допустимо 2 мс)</Message>
+                <Message Code="8" >Ошибка таймера 1 (допустимо 2 мс)</Message>
+                <Message Code="9" >Ошибка таймера 2 (допустимо 2 мс)</Message>
+                <Message Code="10" >Ошибка таймера 3 (допустимо 2 мс)</Message>
+            </Messages>
+            <Script>
+		MyFunc(1,2)
+            </Script>
+        </Test>
+        <Test Nex="5" N="5" ImageIndex="0" Buttons="8" Mbb="255">
+            <Caption>Проверка последовательного порта UART1</Caption>
+            <Abstract>В этом тесте выполняется проверка обмена между ТМ и ОК по порту UART1.</Abstract>
+            <Message>Нажмите клавишу &apos;&apos;Стоп&apos;&apos; для завершения теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="11" >Ошибка ответного кадра объекта контроля</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="3" N="3" ImageIndex="9" Buttons="96" Mbb="255">
+            <Caption>Проверка светодиода &apos;&apos;РАБОТА&apos;&apos;</Caption>
+            <Abstract>Во время выполнения теста зеленый светодиод &apos;&apos;РАБОТА&apos;&apos; на передней планке ОК должен мигать и в ОК должно щелкать герконовое реле с периодом 1 с.Тест считается пройденным, если это так и проваленным в обратном случае.</Abstract>
+            <Message>Если зеленый светодиод &apos;&apos;РАБОТА&apos;&apos; мигает с периодом 1/2 секунды нажмите клавишу &apos;&apos;ДА&apos;&apos;, в противном случае &apos;&apos;НЕТ&apos;&apos;</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="6" N="6" ImageIndex="3" Buttons="8" Mbb="255">
+            <Caption>Проверка последовательного порта UART0</Caption>
+            <Abstract>В этом тесте выполняется проверка связи OK и PC по UART0. Во время выполнения теста зеленый светодиод &apos;&apos;Работа&apos;&apos; на передней планке ОК должен мигать и в ОК должно щелкать герконовое реле с периодом 1 с.</Abstract>
+            <Message>Нажмите клавишу &apos;&apos;Стоп&apos;&apos; для завершения теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="11" >Ошибка ответного кадра объекта контроля</Message>
+                <Message Code="12" >Ответ при выключенной линии</Message>
+                <Message Code="13" >Нет ответа при включенной линии</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="2" N="2" ImageIndex="4" Buttons="8" Mbb="255">
+            <Caption>Проверка вывода сигналов KNO, AWO и ввода сигналов KNI и AWI</Caption>
+            <Abstract>В этом тесте проверяются цифровые сигналы KNO, AWO, KNI, AWI.</Abstract>
+            <Message>Нажмите клавишу &apos;&apos;Стоп&apos;&apos; для завершения теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="14" >Ввод &apos;&apos;1&apos;&apos; KNI(PD2)</Message>
+                <Message Code="15" >Ввод &apos;&apos;1&apos;&apos; AWI(PD3)</Message>
+                <Message Code="16" >Вывод &apos;&apos;1&apos;&apos; KNO(PC2)</Message>
+                <Message Code="17" >Вывод &apos;&apos;1&apos;&apos; AWO(PC3)</Message>
+                <Message Code="18" >Ввод &apos;&apos;0&apos;&apos; KNI(PD2)</Message>
+                <Message Code="19" >Ввод &apos;&apos;0&apos;&apos; AWI(PD3)</Message>
+                <Message Code="20" >Вывод &apos;&apos;0&apos;&apos; KNO(PC2)</Message>
+                <Message Code="21" >Вывод &apos;&apos;0&apos;&apos; AWO(PC3)</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="4" N="4" ImageIndex="8" Buttons="96" Mbb="255">
+            <Caption>Проверка светодиодов &apos;&apos;ОТКАЗ1&apos;&apos; и &apos;&apos;ОТКАЗ2&apos;&apos;</Caption>
+            <Abstract>Во время выполнения теста красные светодиоды &apos;&apos;ОТКАЗ1&apos;&apos; и &apos;&apos;ОТКАЗ2&apos;&apos; на передней планке ОК должны поочередно мигать с периодом 1/2 с.Тест считается пройденным, если это так и проваленным в обратном случае.</Abstract>
+            <Message>Если красные светодиоды &apos;&apos;ОТКАЗ1&apos;&apos; и &apos;&apos;ОТКАЗ2&apos;&apos; переключаются с периодом 1/2 секунды нажмите клавишу &apos;&apos;ДА&apos;&apos;, в противном случае &apos;&apos;НЕТ&apos;&apos;</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="31" N="0" ImageIndex="7" Buttons="8" Mbb="247">
+            <Caption>Калибровка канала АЦП1</Caption>
+            <Abstract>В этом тесте калибруется узел измерения тока OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="32" N="0" ImageIndex="7" Buttons="8" Mbb="247">
+            <Caption>Калибровка канала АЦП2</Caption>
+            <Abstract>В этом тесте калибруется узел измерения тока OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="40" N="0" ImageIndex="7" Buttons="8" Mbb="247">
+            <Caption>Проверка канала АЦП1</Caption>
+            <Abstract>В этом тесте проверяется канал АЦП1 OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="6" >Превышено допустимое отклонение</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="41" N="0" ImageIndex="7" Buttons="8" Mbb="247">
+            <Caption>Проверка канала АЦП2</Caption>
+            <Abstract>В этом тесте проверяется канал АЦП2 OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="6" >Превышено допустимое отклонение</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="42" N="0" ImageIndex="7" Buttons="8" Mbb="248">
+            <Caption>Проверка канала FAIN1</Caption>
+            <Abstract>В этом тесте проверяется узел измерения частоты OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="6" >Превышено допустимое отклонение</Message>
+				<Message Code="22" >Ошибка установки &apos;&apos;0&apos;&apos;</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="43" N="0" ImageIndex="7" Buttons="8" Mbb="248">
+            <Caption>Проверка канала FAIN2</Caption>
+            <Abstract>В этом тесте проверяется узел измерения частоты OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="2" >Проверка прервана пользователем</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="6" >Превышено допустимое отклонение</Message>
+				<Message Code="22" >Ошибка установки &apos;&apos;0&apos;&apos;</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="33" N="0" ImageIndex="5" Buttons="8" Mbb="18">
+            <Caption>Проверка узла ввода дискретных сигналов OK КДС</Caption>
+            <Abstract>В этом тесте проверяется узел ввода дискретных сигналов OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="22" >Ошибка установки &apos;&apos;0&apos;&apos;</Message>
+                <Message Code="23" >Ошибка при проверке сигналов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="34" N="0" ImageIndex="5" Buttons="8" Mbb="49">
+            <Caption>Проверка узла вывода дискретных сигналов OK РДС</Caption>
+            <Abstract>В этом тесте проверяется узел ввода дискретных сигналов OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="23" >Ошибка при проверке сигналов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="35" N="0" ImageIndex="5" Buttons="8" Mbb="20">
+            <Caption>Проверка узла ввода дискретных сигналов OK ННС</Caption>
+            <Abstract>В этом тесте проверяется узел ввода дискретных сигналов OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="22" >Ошибка установки &apos;&apos;0&apos;&apos;</Message>
+                <Message Code="23" >Ошибка при проверке сигналов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+        <Test Nex="36" N="0" ImageIndex="5" Buttons="8" Mbb="24">
+            <Caption>Проверка узла ввода дискретных сигналов OK НВС</Caption>
+            <Abstract>В этом тесте проверяется узел ввода дискретных сигналов OK. Тест состоит из нескольких шагов.</Abstract>
+            <Message>Вы можете нажать клавишу &apos;&apos;Стоп&apos;&apos; для прерывания теста ...</Message>
+            <Messages>
+                <Message Code="0" >Попыток</Message>
+                <Message Code="1" >Провалов</Message>
+                <Message Code="3" >Нет ответа технологического модуля</Message>
+                <Message Code="4" >Нет ответа объекта контроля</Message>
+                <Message Code="5" >Нет ответа технологического РДС N15</Message>
+                <Message Code="22" >Ошибка установки &apos;&apos;0&apos;&apos;</Message>
+                <Message Code="23" >Ошибка при проверке сигналов</Message>
+            </Messages>
+            <Script>
+                Hello, World!
+            </Script>
+        </Test>
+    </Tests>
+</Document>

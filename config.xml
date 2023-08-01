@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Файл конфигурации программы CMBB-->
+<Document>
+    <!--Конфигурация com-портов-->
+    <Configuration Line1="1" Line2="2" BaudRate="6" ByteSize="8" Parity="0" StopBit="1"/>
+</Document>
