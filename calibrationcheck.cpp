@@ -259,6 +259,8 @@ void CalibrationCheck::setButtonReadADC1(){
  */
 void CalibrationCheck::setButtonOk1()
 {
+    quint8 commandAdc = 0;
+    int numCom = modul->getNumLine().toInt();
     int id = idRadioBtn;
     int groupBtn = 0, numberBtn = 0, maBtn=0;
     getRadioBtnPush(id, &groupBtn, &numberBtn, &maBtn);
@@ -268,7 +270,8 @@ void CalibrationCheck::setButtonOk1()
            btnGroupCheck1->button(id)->setIcon(QIcon(""));
         }
     }
-    Ok = sendCommandDac12(sport, modul, 0x41, getGivenValue(maBtn), getGivenValue(maBtn));
+    commandAdc = (numCom) == 1 ? 0x41 : 0x81;
+    Ok = sendCommandDac12(sport, modul, commandAdc, getGivenValue(maBtn), getGivenValue(maBtn));
     if(Ok){
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             Ok = readCalibratedADCval(sport, modul, 0x4E);
@@ -297,13 +300,16 @@ void CalibrationCheck::setButtonOk2()
     int id = idRadioBtn;
     int groupBtn = 0, numberBtn = 0, maBtn=0;
     getRadioBtnPush(id, &groupBtn, &numberBtn, &maBtn);
+    quint8 commandAdc = 0;
+    int numCom = modul->getNumLine().toInt();
     bool Ok = false;
     if(groupBtn == GROUP_RADIO_BTN_DAC2){
         if(btnGroupCheck2->button(id)->isChecked()){
            btnGroupCheck2->button(id)->setIcon(QIcon(""));
         }
     }
-    Ok = sendCommandDac12(sport, modul, 0x41, getGivenValue(maBtn), getGivenValue(maBtn));
+    commandAdc = (numCom) == 1 ? 0x41 : 0x81;
+    Ok = sendCommandDac12(sport, modul, commandAdc, getGivenValue(maBtn), getGivenValue(maBtn));
     if(Ok){
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             Ok = readCalibratedADCval(sport, modul, 0x4E);

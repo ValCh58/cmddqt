@@ -10,8 +10,8 @@
 
 SPort::SPort(QString portname, QObject *parent) : QObject(parent)
 {
-    WRITE_TIMEOUT = 500;//mlSec
-    READ_TIMEOUT  = 500;
+    WRITE_TIMEOUT = 100;//mlSec
+    READ_TIMEOUT  = 100;
     portName = portname;
     thisPort = new QSerialPort(this);
     thisPort->setPortName(portName);

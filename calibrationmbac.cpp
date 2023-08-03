@@ -1017,7 +1017,7 @@ void CalibrationMBAC::getClick(int id){
     int numCom = modul->getNumLine().toInt()-1;//Получим номер порта для связи//
     bool Ok = false;
     QString str = nullptr;
-    quint8 numDAC = 0, specPar = 6;
+    quint8 numDAC = 0, specPar = 6, commandAdc = 0;
     if(groupBtn == GROUP_RADIO_BTN_DAC1 || groupBtn == GROUP_RADIO_BTN_DAC2){
        switch(groupBtn){
        case GROUP_RADIO_BTN_DAC1:
@@ -1056,6 +1056,7 @@ void CalibrationMBAC::getClick(int id){
             }
                     fieldClearingDac(editCurrValue3, spinBox3, editHandCorr3, editAdc3);
                     buttonOK3->setDefault(true);
+
             break;
         case GROUP_RADIO_BTN_ADC2:
             if(btnGroupADC2->button(id)->isChecked()){
@@ -1066,7 +1067,8 @@ void CalibrationMBAC::getClick(int id){
             break;
         default: showDialogInform(QMessageBox::Information, "Радиокнопка  не найдена."); return;
         }
-         Ok = sendCommandDac12(sPorts.at(numCom), modul, 0x41, getGivenValue(maBtn), getGivenValue(maBtn));
+         commandAdc = (numCom + 1) == 1 ? 0x41 : 0x81;
+         Ok = sendCommandDac12(sPorts.at(numCom), modul, commandAdc, getGivenValue(maBtn), getGivenValue(maBtn));
          if(Ok){
              //showDialogInform(QMessageBox::Information, "Команда \"Запись калиброванного значения на ЦАПы\" выполнена.")
                      ;}
