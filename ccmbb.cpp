@@ -14,6 +14,10 @@
 #define RDS     1
 #define RDS_NNS 2
 
+/**
+ * @brief MainWindow::MainWindow
+ * @param parent
+ */
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
@@ -39,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 }
 
 //Вызов контекстного меню//
+/**
+ * @brief MainWindow::showContextMenu
+ * @param point
+ */
 void MainWindow::showContextMenu(const QPoint &point){
     Q_UNUSED(point);
     QMenu *menu = new QMenu();
@@ -62,7 +70,9 @@ void MainWindow::showContextMenu(const QPoint &point){
     menu->exec(QCursor::pos());
 }
 
-
+/**
+ * @brief MainWindow::~MainWindow
+ */
 MainWindow::~MainWindow()
 {
     if(subMenuIndication) delete subMenuIndication;
@@ -107,7 +117,9 @@ MainWindow::~MainWindow()
     if(testRDS) delete testRDS;
     if(testRDSNNS) delete testRDSNNS;
 }
-
+/**
+ * @brief MainWindow::activateProgress
+ */
 void MainWindow::activateProgress()
 {
     prg = new MyProgressBar(this, 0, 60);
@@ -119,6 +131,9 @@ void MainWindow::activateProgress()
 
 }
 
+/**
+ * @brief MainWindow::deactivateProgress
+ */
 void MainWindow::deactivateProgress()
 {
     //--------------------------------------------------------------//
@@ -128,6 +143,9 @@ void MainWindow::deactivateProgress()
     delete prg;
 }
 
+/**
+ * @brief MainWindow::createToolBar
+ */
 void MainWindow::createToolBar()
 {
     toolBar = addToolBar(tr("Файл"));
@@ -143,6 +161,9 @@ void MainWindow::createToolBar()
     toolBar->addAction(actExit);
 }
 
+/**
+ * @brief MainWindow::createActions
+ */
 void MainWindow::createActions(){
     //======Меню файл=========================================================================================//
     /* --Kонфигурация модулей----------------------------------------------------------------------------------//
@@ -239,6 +260,9 @@ void MainWindow::createActions(){
     //========================================================================================================//
 }
 
+/**
+ * @brief MainWindow::createMenus
+ */
 void MainWindow::createMenus(){
     //==Меню файл====================================//
     menuFile = menuBar()->addMenu(tr("Файл"));
@@ -274,6 +298,9 @@ void MainWindow::createMenus(){
     statusBar()->showMessage(tr("Готов"));
 }
 
+/**
+ * @brief MainWindow::initView
+ */
 void MainWindow::initView()
 {
     viewmodul = new ViewModules(this);
@@ -289,22 +316,39 @@ void MainWindow::initView()
     viewmodul->headerSize();
 }
 
+/**
+ * @brief MainWindow::getListModul
+ * @return
+ */
 CmbbListModules *MainWindow::getListModul() const
 {
     return listModul;
 }
 
+/**
+ * @brief MainWindow::setListModul
+ * @param value
+ */
 void MainWindow::setListModul(CmbbListModules *value)
 {
     listModul = value;
 }
 
+/**
+ * @brief MainWindow::getViewmodul
+ * @return
+ */
 ViewModules *MainWindow::getViewmodul() const
 {
     return viewmodul;
 }
 
 //Загрузка данных по типам модулей из файла XML в QList Modules///////////////////////////
+/**
+ * @brief MainWindow::loadTypeModules
+ * @param file
+ * @return
+ */
 bool MainWindow::loadTypeModules(QString file)
 {
     int i=0;
@@ -357,12 +401,19 @@ bool MainWindow::loadTypeModules(QString file)
     return true;
 }
 
+/**
+ * @brief MainWindow::fillList
+ * @param ba
+ */
 void MainWindow::fillList(QByteArray ba)
 {
     bufBytesRead->append(ba);
 }
 
 //Загрузка найденных модулей в таблицу//
+/**
+ * @brief MainWindow::loadModulesToModel
+ */
 void MainWindow::loadModulesToModel()
 {
     listModul->clearModel();
@@ -395,6 +446,11 @@ void MainWindow::loadModulesToModel()
     }
 }
 
+/**
+ * @brief MainWindow::getTypeModule
+ * @param type
+ * @return
+ */
 QString MainWindow::getTypeModule(int type)
 {
     QString retVal="UNK";
@@ -407,6 +463,11 @@ QString MainWindow::getTypeModule(int type)
     return retVal;
 }
 
+/**
+ * @brief MainWindow::getColorModule
+ * @param type
+ * @return
+ */
 uint MainWindow::getColorModule(int type)
 {
     uint retVal=0;
@@ -418,24 +479,36 @@ uint MainWindow::getColorModule(int type)
     return retVal;
 }
 
+/**
+ * @brief MainWindow::getMapAdcs
+ * @return
+ */
 QMap<QString, Adcs> *MainWindow::getMapAdcs() const
 {
     return mapAdcs;
 }
 
+/**
+ * @brief MainWindow::closeTest
+ */
 void MainWindow::closeTest()
 {
     checkModules(techModule, 15 | (8<<4));
-
 }
 
-
+/**
+ * @brief MainWindow::getMapAdcPloAddr
+ * @return
+ */
 QMap<QString, AdcPloAddr> *MainWindow::getMapAdcPloAddr() const
 {
     return mapAdcPloAddr;
 }
 
-
+/**
+ * @brief MainWindow::loadAdcPloAddr
+ * @param strFile
+ */
 void MainWindow::loadAdcPloAddr(QString strFile)
 {
     char buf[160];
@@ -464,6 +537,10 @@ void MainWindow::loadAdcPloAddr(QString strFile)
     }
 }
 
+/**
+ * @brief MainWindow::loadAdcs
+ * @param fileName
+ */
 void MainWindow::loadAdcs(QString fileName)
 {
     char buf[1024];
@@ -494,9 +571,14 @@ void MainWindow::loadAdcs(QString fileName)
        }
        file->close();
     }
-
 }
 
+/**
+ * @brief MainWindow::getKeyAdcPlo
+ * @param k1
+ * @param k2
+ * @return
+ */
 QString MainWindow::getKeyAdcPlo(QString k1, QString k2)
 {
     return k1.right(2).trimmed()+k2.trimmed();
@@ -504,6 +586,10 @@ QString MainWindow::getKeyAdcPlo(QString k1, QString k2)
 }
 
 //Синхронизация////////////////////////////////////////////////
+/**
+ * @brief MainWindow::commandControlInd
+ * @param cmd
+ */
 void MainWindow::commandControlInd(quint8 cmd)
 {
     quint8 CMD = 0;
@@ -530,15 +616,11 @@ void MainWindow::commandControlInd(quint8 cmd)
     }
 }
 
-
-
-//============================================================================================================//
 //===Slots====================================================================================================//
-//============================================================================================================//
-//void MainWindow::configModules(){}
-//void MainWindow::descripAnalogSignals(){}
-
 //Настройка модулей============================================================================//
+/**
+ * @brief MainWindow::settingModule
+ */
 void MainWindow::settingModule()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -551,6 +633,9 @@ void MainWindow::settingModule()
 
 }
 
+/**
+ * @brief MainWindow::testRds
+ */
 void MainWindow::testRds()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -574,6 +659,9 @@ void MainWindow::testRds()
      }
 }
 
+/**
+ * @brief MainWindow::testRdsNnc
+ */
 void MainWindow::testRdsNnc()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -597,12 +685,22 @@ void MainWindow::testRdsNnc()
     }
 }
 
+/**
+ * @brief MainWindow::menuDisRDSNNS
+ * @param setrds
+ * @param setrdsnns
+ */
 void MainWindow::menuDisRDSNNS(bool setrds, bool setrdsnns)
 {
     actTestRds->setDisabled(setrds);
     actTestRdsHHC->setDisabled(setrdsnns);
 }
 
+/**
+ * @brief MainWindow::messageRDS
+ * @param data
+ * @return
+ */
 bool MainWindow::messageRDS(DataModules data)
 {
     if(!data.isData()){
@@ -621,6 +719,9 @@ bool MainWindow::messageRDS(DataModules data)
 
 
 //Поиск модулей================================================================================//
+/**
+ * @brief MainWindow::searchModule
+ */
 void MainWindow::searchModule()
 {
     int i, step = 4;
@@ -662,23 +763,36 @@ void MainWindow::searchModule()
 
 
 //Включить индикацию==========//
+/**
+ * @brief MainWindow::indOn
+ */
 void MainWindow::indOn()
 {
     commandControlInd(14);
 }
 
 //Отключить индикацию//
+/**
+ * @brief MainWindow::indOff
+ */
 void MainWindow::indOff()
 {
     commandControlInd(15);
 }
 
 //Переменная индикацию//
+/**
+ * @brief MainWindow::indFlash
+ */
 void MainWindow::indFlash()
 {
     commandControlInd(13);
-}//===========================//
+}
 
+/**
+ * @brief MainWindow::checkTecModule
+ * @param flag
+ */
 void MainWindow::checkTecModule(bool flag)
 {
     if(!flag){
@@ -700,6 +814,9 @@ void MainWindow::checkTecModule(bool flag)
      }
 }
 
+/**
+ * @brief MainWindow::testModule
+ */
 void MainWindow::testModule()
 {
     TestModule *testmod;
@@ -742,6 +859,11 @@ void MainWindow::testModule()
 }
 
 //Перевод в режим тестирования ТМ и ОК///////////
+/**
+ * @brief MainWindow::setModeTested
+ * @param data
+ * @return
+ */
 bool MainWindow::setModeTested(DataModules data)
 {
     bool retVal = true;
@@ -759,6 +881,12 @@ bool MainWindow::setModeTested(DataModules data)
 
 
 //Проверка ответа от ТМ и ОК/////////////////////////////////////
+/**
+ * @brief MainWindow::checkModules
+ * @param module
+ * @param command
+ * @return
+ */
 bool MainWindow::checkModules(DataModules module, quint8 command)
 {
     bool retVal = false;
@@ -778,6 +906,9 @@ bool MainWindow::checkModules(DataModules module, quint8 command)
 }
 
 //Константы скорости============================//
+/**
+ * @brief MainWindow::constSpeed
+ */
 void MainWindow::constSpeed()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -787,9 +918,12 @@ void MainWindow::constSpeed()
     }else{
         QMessageBox::information(this, "Сообщение", "Не выбрана строка в таблице!", QMessageBox::Ok);
     }
-}//=============================================//
+}
 
 //=== Калибрация МВАС ==========================//
+/**
+ * @brief MainWindow::calibrationAdcMbac
+ */
 void MainWindow::calibrationAdcMbac(){
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
     if(data.isData()){
@@ -801,9 +935,10 @@ void MainWindow::calibrationAdcMbac(){
     }
 
 }
-//==============================================//
 
-
+/**
+ * @brief MainWindow::resetID
+ */
 void MainWindow::resetID()
 {
     int numCom = 0;//Номер ком порта//
@@ -828,7 +963,9 @@ void MainWindow::resetID()
     }
 }
 
-
+/**
+ * @brief MainWindow::resetKo
+ */
 void MainWindow::resetKo()
 {
     int numCom = 0;//Номер ком порта//
@@ -855,12 +992,18 @@ void MainWindow::resetKo()
 
 
 //Синхронизация====================================//
+/**
+ * @brief MainWindow::modeSync
+ */
 void MainWindow::modeSync()
 {
      commandControlInd(2);
 
-}//================================================//
+}
 
+/**
+ * @brief MainWindow::aBout
+ */
 void MainWindow::aBout()
 {
   About *ab = new About(this);
@@ -868,6 +1011,9 @@ void MainWindow::aBout()
 }
 
 //Калибровка=======================================//
+/**
+ * @brief MainWindow::makeCalibr
+ */
 void MainWindow::makeCalibr()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -886,10 +1032,12 @@ void MainWindow::makeCalibr()
     }else{
         QMessageBox::information(this, "Сообщение", "Не выбрана строка в таблице!", QMessageBox::Ok);
     }
-}//================================================//
-
+}
 
 //Обнаружить модуль===========================================================================================//
+/**
+ * @brief MainWindow::makeFindItem
+ */
 void MainWindow::makeFindItem()
 {
     int numCom = 0;//Номер ком порта//
@@ -908,9 +1056,12 @@ void MainWindow::makeFindItem()
     }else{
         QMessageBox::information(this, "Сообщение", "Не выбрана строка в таблице!", QMessageBox::Ok);
     }
-}//===========================================================================================================//
+}
 
 //Уставки аналоговых сигналов=================================================================================//
+/**
+ * @brief MainWindow::makeSetPoint
+ */
 void MainWindow::makeSetPoint()
 {
     DataModules data = getItemDataProxyModel(viewmodul->currentIndex());
@@ -920,16 +1071,24 @@ void MainWindow::makeSetPoint()
     }else{
         QMessageBox::information(this, "Сообщение", "Не выбрана строка в таблице!", QMessageBox::Ok);
     }
-}//===========================================================================================================//
+}
 
+/**
+ * @brief MainWindow::printError
+ * @param strMess
+ */
 void MainWindow::printError(QString strMess)
 {
   QString strErr = "Порт не найден.";
   QMessageBox::critical(this, "Сообщение", /*strMess*/strErr, QMessageBox::Ok );
 }
-//============================================================================================================//
 
 //Получение  выбранного QModelIndex ==========================================================================//
+/**
+ * @brief MainWindow::getItemDataProxyModel
+ * @param modIdx
+ * @return
+ */
 DataModules MainWindow::getItemDataProxyModel(QModelIndex modIdx)
 {
     DataModules data;
@@ -942,9 +1101,14 @@ DataModules MainWindow::getItemDataProxyModel(QModelIndex modIdx)
     return data;
 }
 
-//===========================================================================================================//
-
 //+++++++Global++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+/**
+ * @brief Assert_x
+ * @param flag
+ * @param title
+ * @param message
+ * @return
+ */
 bool Assert_x(bool flag, QString title, QString message)
 {
    if(!flag){
@@ -954,6 +1118,13 @@ bool Assert_x(bool flag, QString title, QString message)
    return true;
 }
 
+/**
+ * @brief XmlError
+ * @param cfg
+ * @param filename
+ * @param buff
+ * @return
+ */
 bool XmlError(TiXmlDocument* cfg, const char *filename, char *buff)
 {
   if (cfg->Error())

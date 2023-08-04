@@ -4,7 +4,12 @@
 #include "calibratedialog.h"
 
 
-
+/**
+ * @brief CalibrateDialog::CalibrateDialog
+ * @param data
+ * @param parent
+ * @param f
+ */
 CalibrateDialog::CalibrateDialog(DataModules *data, QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
 {
     //setAttribute(Qt::WA_DeleteOnClose);
@@ -43,6 +48,9 @@ CalibrateDialog::~CalibrateDialog()
 }
 
 //Инициализация данных====================================//
+/**
+ * @brief CalibrateDialog::initData
+ */
 void CalibrateDialog::initData()
 {
     res[0] = 0;
@@ -107,6 +115,9 @@ void CalibrateDialog::initData()
 }
 
 //Контрольные измерения============================================================================//
+/**
+ * @brief CalibrateDialog::ControlMeasur
+ */
 void CalibrateDialog::ControlMeasur()
 {
     LogFile *logFile=nullptr;
@@ -159,6 +170,10 @@ void CalibrateDialog::ControlMeasur()
 
 
 //Калибровка/////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief CalibrateDialog::makeCalibrate
+ */
+
 void CalibrateDialog::makeCalibrate()
 {
     vProgrBar->progress->setValue(0);
@@ -192,6 +207,10 @@ void CalibrateDialog::makeCalibrate()
     vProgrBar->progress->setValue(100);
 }
 
+/**
+ * @brief CalibrateDialog::processMeasur
+ * @param type
+ */
 void CalibrateDialog::processMeasur(int type)
 {
     uint acpCnt = 8;
@@ -213,6 +232,10 @@ void CalibrateDialog::processMeasur(int type)
     }
 }
 
+/**
+ * @brief CalibrateDialog::disabledButton
+ * @param flag
+ */
 void CalibrateDialog::disabledButton(bool flag)
 {
     btControl->setDisabled(flag);
@@ -223,6 +246,10 @@ void CalibrateDialog::disabledButton(bool flag)
     btWrite->setDisabled(flag);
 }
 
+/**
+ * @brief CalibrateDialog::fillFIelds
+ * @param type
+ */
 void CalibrateDialog::fillFIelds(int type)
 {
     QString s;
@@ -247,6 +274,9 @@ void CalibrateDialog::fillFIelds(int type)
     }
 }//=========================================================================================//
 
+/**
+ * @brief CalibrateDialog::writeCalibrationFactor
+ */
 void CalibrateDialog::writeCalibrationFactor()
 {
     if (num_izm == 0)
@@ -274,6 +304,9 @@ void CalibrateDialog::writeCalibrationFactor()
     }
 }
 
+/**
+ * @brief CalibrateDialog::resetCalibCoeff
+ */
 void CalibrateDialog::resetCalibCoeff()
 {
     int type = modul->getTypeModule();
@@ -315,6 +348,10 @@ int CalibrateDialog::getNumAcp()
     return retVal;
 }
 
+/**
+ * @brief CalibrateDialog::fillControl
+ * @param type
+ */
 void CalibrateDialog::fillControl(int type)
 {
     txtAcp1->setText(QString::number(cIzm[0]));
@@ -330,8 +367,10 @@ void CalibrateDialog::fillControl(int type)
 }
 
 //==========================================================================================//
-//==========================================================================================//
 //Интерфейс формы/////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief CalibrateDialog::init
+ */
 void CalibrateDialog::init()
 {
     btReturn = new QPushButton("Возврат");
@@ -361,6 +400,10 @@ void CalibrateDialog::init()
 }
 
 //===Layout:Выполнение калибровки=================================//
+/**
+ * @brief CalibrateDialog::createLayoutPgrogressBar
+ * @return
+ */
 QGroupBox *CalibrateDialog::createLayoutPgrogressBar()
 {
     QGroupBox *gBox = new QGroupBox("...");
@@ -376,6 +419,10 @@ QGroupBox *CalibrateDialog::createLayoutPgrogressBar()
     return gBox;
 }
 
+/**
+ * @brief CalibrateDialog::createHLayoutSpinCount
+ * @return
+ */
 QFormLayout *CalibrateDialog::createHLayoutSpinCount()
 {
     QFormLayout *form = new QFormLayout();
@@ -400,6 +447,10 @@ QFormLayout *CalibrateDialog::createHLayoutSpinCount()
     return form;
 }
 
+/**
+ * @brief CalibrateDialog::createGroupAcp1
+ * @return
+ */
 QGroupBox *CalibrateDialog::createGroupAcp1()
 {
     QGroupBox *gBox = new QGroupBox("Cp.значение, Ма");
@@ -442,7 +493,10 @@ QGroupBox *CalibrateDialog::createGroupAcp1()
     return gBox;
 }
 
-
+/**
+ * @brief CalibrateDialog::createGroupAcp2
+ * @return
+ */
 QGroupBox *CalibrateDialog::createGroupAcp2()
 {
     QGroupBox *gBox = new QGroupBox("Ср. квадр. откл., Ма");
@@ -487,6 +541,10 @@ QGroupBox *CalibrateDialog::createGroupAcp2()
 //=========================================================//
 
 //Layout:Калибрация и Канал=======================================//
+/**
+ * @brief CalibrateDialog::createGroupKalibr
+ * @return
+ */
 QGroupBox *CalibrateDialog::createGroupKalibr()
 {
     QGroupBox *groupBox = new QGroupBox(tr("Калибровка"));
@@ -501,6 +559,10 @@ QGroupBox *CalibrateDialog::createGroupKalibr()
     return groupBox;
 }
 
+/**
+ * @brief CalibrateDialog::createGroupKanal
+ * @return
+ */
 QGroupBox *CalibrateDialog::createGroupKanal()
 {
     QGroupBox *groupBox = new QGroupBox(tr("Канал"));
@@ -527,6 +589,10 @@ QGroupBox *CalibrateDialog::createGroupKanal()
     return groupBox;
 }
 
+/**
+ * @brief CalibrateDialog::createGroupBT
+ * @return
+ */
 QVBoxLayout *CalibrateDialog::createGroupBT()
 {
     btWrite = new QPushButton("Записать");
@@ -540,6 +606,10 @@ QVBoxLayout *CalibrateDialog::createGroupBT()
 //=========================================================//
 
 //==Layout:Сохранение=============================================//
+/**
+ * @brief CalibrateDialog::createGroupACP1_4
+ * @return
+ */
 QFormLayout *CalibrateDialog::createGroupACP1_4()
 {
     QFormLayout *form = new QFormLayout();
@@ -567,6 +637,10 @@ QFormLayout *CalibrateDialog::createGroupACP1_4()
     return form;
 }
 
+/**
+ * @brief CalibrateDialog::createGroupACP5_8
+ * @return
+ */
 QFormLayout *CalibrateDialog::createGroupACP5_8()
 {
     QFormLayout *form = new QFormLayout();
@@ -595,6 +669,10 @@ QFormLayout *CalibrateDialog::createGroupACP5_8()
 
 }
 
+/**
+ * @brief CalibrateDialog::createGroupLoad
+ * @return
+ */
 QVBoxLayout *CalibrateDialog::createGroupLoad()
 {
     QVBoxLayout *vBox = new QVBoxLayout();
@@ -611,6 +689,4 @@ QVBoxLayout *CalibrateDialog::createGroupLoad()
     return vBox;
 }
 
-//=============================================================================================================//
-//=============================================================================================================//
 

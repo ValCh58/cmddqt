@@ -1,5 +1,10 @@
 #include "about.h"
 
+/**
+ * @brief About::About
+ * @param parent
+ * @param f
+ */
 About::About(QWidget *parent, Qt::WindowFlags f):QDialog(parent,f)
 {
    setModal(true);
@@ -44,6 +49,9 @@ About::About(QWidget *parent, Qt::WindowFlags f):QDialog(parent,f)
 
 }
 
+/**
+ * @brief About::~About
+ */
 About::~About()
 {
 

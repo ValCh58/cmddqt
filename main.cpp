@@ -4,6 +4,12 @@
 #include <QTextCodec>
 #include "config.h"
 
+/**
+ * @brief qMain
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[])
 {
     QDir().setCurrent(QFileInfo(argv[0]).absolutePath());

@@ -295,6 +295,9 @@ void CalibrationCheck::setButtonReadADC2(){
     buttonCalc2->setDefault(true);
 }
 
+/**
+ * @brief CalibrationCheck::setButtonOk2
+ */
 void CalibrationCheck::setButtonOk2()
 {
     int id = idRadioBtn;
@@ -410,6 +413,11 @@ bool CalibrationCheck::sendCommandDac12(SPort *sPort,
 
 }
 
+/**
+ * @brief CalibrationCheck::getMa
+ * @param selector
+ * @return
+ */
 double CalibrationCheck::getMa(const int selector){
 double retVal = 0;
 switch(selector){
