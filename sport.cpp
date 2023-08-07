@@ -7,7 +7,11 @@
 #include "xmldocument.h"
 #include "config.h"
 
-
+/**
+ * @brief SPort::SPort
+ * @param portname
+ * @param parent
+ */
 SPort::SPort(QString portname, QObject *parent) : QObject(parent)
 {
     WRITE_TIMEOUT = 100;//mlSec
@@ -23,6 +27,9 @@ SPort::SPort(QString portname, QObject *parent) : QObject(parent)
 
 }
 
+/**
+ * @brief SPort::~SPort
+ */
 SPort::~SPort()
 {
    disconnectPort();
@@ -30,11 +37,18 @@ SPort::~SPort()
    delete logFile;
 }
 
+/**
+ * @brief SPort::getThisPort
+ * @return
+ */
 QSerialPort *SPort::getThisPort() const
 {
     return thisPort;
 }
 
+/**
+ * @brief SPort::connectPort
+ */
 void SPort::connectPort()
 {
     if(thisPort->open(QIODevice::ReadWrite)){
@@ -50,6 +64,9 @@ void SPort::connectPort()
     }
 }
 
+/**
+ * @brief SPort::disconnectPort
+ */
 void SPort::disconnectPort()
 {
     if(thisPort->isOpen()){
@@ -60,11 +77,21 @@ void SPort::disconnectPort()
     }
 }
 
+/**
+ * @brief SPort::getPortName
+ * @return
+ */
 QString SPort::getPortName() const
 {
     return portName;
 }
 
+/**
+ * @brief SPort::crc
+ * @param buf
+ * @param sz
+ * @return
+ */
 char SPort::crc(const char *buf, const int sz)
 {
     int sum = 0;
@@ -75,6 +102,15 @@ char SPort::crc(const char *buf, const int sz)
     return sum;
 }
 
+/**
+ * @brief SPort::writePort
+ * @param port
+ * @param size
+ * @param addr
+ * @param CMD
+ * @param type
+ * @param flag
+ */
 void SPort::writePort(SPort* port, int size, int addr, int CMD, int type, bool *flag)
 {
     prepareDataTX(port, addr, CMD);//Подготовка данных
@@ -92,7 +128,14 @@ void SPort::writePort(SPort* port, int size, int addr, int CMD, int type, bool *
 }
 
 
-
+/**
+ * @brief SPort::getDataFromPort
+ * @param port
+ * @param cmd
+ * @param flagOK
+ * @param type
+ * @return
+ */
 bool SPort::getDataFromPort(SPort *port, int cmd, bool *flagOK, int type)
 {
    if(port->thisPort->waitForReadyRead(READ_TIMEOUT)){
@@ -123,6 +166,13 @@ bool SPort::getDataFromPort(SPort *port, int cmd, bool *flagOK, int type)
    }
 }
 
+/**
+ * @brief SPort::saveSettingsModule
+ * @param data
+ * @param adr
+ * @param type
+ * @param aver
+ */
 void SPort::saveSettingsModule(DataModules *data, quint8 adr, quint8 type, quint8 aver)
 {
     bool trOK = false;
@@ -144,6 +194,13 @@ void SPort::saveSettingsModule(DataModules *data, quint8 adr, quint8 type, quint
 }
 
 //Слот на получение и обработку ответа от ТМ и ОК///////////////////////
+/**
+ * @brief SPort::detectModuleTmOk
+ * @param port
+ * @param cmd
+ * @param addr
+ * @param flag
+ */
 void SPort::detectModuleTmOk(SPort *port, int cmd, int addr, bool *flag)
 {
     bool flagOK;
@@ -151,18 +208,31 @@ void SPort::detectModuleTmOk(SPort *port, int cmd, int addr, bool *flag)
     writePort(port, sz, addr, cmd);
     getDataFromPort(port, cmd, &flagOK);
     *flag = flagOK;
-}//====================================================================//
+}
 
 //Выдача команды в ТМ=============================================//
+/**
+ * @brief SPort::writeStartTestTM
+ * @param port
+ * @param cmd
+ * @param addr
+ * @param N
+ */
 void SPort::writeStartTestTM(SPort *port, int cmd, int addr, int N)
 {
     memset(TX,0,sizeof(TX));
     TX[3] = N;
     int sz = kvkSIZ0[cmd] & 0x0F;
     writePort(port, sz, addr, cmd);
-}//===============================================================//
+}
 
-
+/**
+ * @brief SPort::handDataSearchModules
+ * @param port
+ * @param line
+ * @param addr
+ * @param cmd
+ */
 void SPort::handDataSearchModules(SPort *port, int line, int addr, int cmd)
 {
     bool flagOK;
@@ -184,7 +254,12 @@ void SPort::handDataSearchModules(SPort *port, int line, int addr, int cmd)
     }
 }
 
-
+/**
+ * @brief SPort::detectModule
+ * @param port
+ * @param cmd
+ * @param addr
+ */
 void SPort::detectModule(SPort *port, int cmd, int addr)
 {
      bool flagOK;
@@ -194,10 +269,16 @@ void SPort::detectModule(SPort *port, int cmd, int addr)
      if(!flagOK){
          QMessageBox::information(NULL, "Сообщение", "При посылке команды произошла ошибка!", QMessageBox::Ok);
      }
-
 }
 
 //Выполнить измерения/////////////////////////////
+/**
+ * @brief SPort::makeMeasur
+ * @param cntMeasur
+ * @param data
+ * @param ok
+ * @param izmer
+ */
 void SPort::makeMeasur(int cntMeasur, DataModules *data, bool *ok, uint *izmer)
 {   //a[i][j] = *(a + i*(max value of j) + j)
 
@@ -233,7 +314,13 @@ void SPort::makeMeasur(int cntMeasur, DataModules *data, bool *ok, uint *izmer)
     }
 }
 
-
+/**
+ * @brief SPort::readAcp
+ * @param cmd
+ * @param addr
+ * @param flagOk
+ * @param type
+ */
 void SPort::readAcp(int cmd, int addr, bool *flagOk, int type)
 {
     int sz = getSizeByte(type, cmd);
@@ -242,6 +329,12 @@ void SPort::readAcp(int cmd, int addr, bool *flagOk, int type)
     getDataFromPort(this, cmd, flagOk);
 }
 
+/**
+ * @brief SPort::getSizeByte
+ * @param type
+ * @param command
+ * @return
+ */
 int SPort::getSizeByte(int type, int command)
 {
     int sz = kvkSIZ0[command] & 0x0F;
@@ -252,6 +345,14 @@ int SPort::getSizeByte(int type, int command)
 
 
 //Запись коэффициента калибровки///////////////////////////////////////////////////////////////////////////////////
+/**
+* * @brief SPort::makeWriteCalFactor
+* * @param type
+* * @param ma20_40
+* * @param numCh
+* * @param adr
+* * @param izmer
+*/
 void SPort::makeWriteCalFactor(int type, int ma20_40, int numCh, int adr, uint *izmer)
 {
     bool trOK = false;
@@ -270,10 +371,15 @@ void SPort::makeWriteCalFactor(int type, int ma20_40, int numCh, int adr, uint *
     }else{
         QMessageBox::information(NULL, "Сообщение", "Ошибка записи калибровочного коэффициента!");
     }
-}//================================================================================================================//
+}
 
 
 //Сброс коэффициентов==============================================================================================//
+/**
+ * @brief SPort::ResetCalCoeff
+ * @param type
+ * @param addr
+ */
 void SPort::ResetCalCoeff(int type, int addr)
 {
     ResetCalCoeff(0, 0, 2000 & 0xFF, 2000 >> 8, 14 | (5 << 4), type, addr);
@@ -296,7 +402,16 @@ void SPort::ResetCalCoeff(int type, int addr)
     }
 }
 
-
+/**
+ * @brief SPort::ResetCalCoeff
+ * @param acp
+ * @param acpType
+ * @param p4
+ * @param p5
+ * @param cmd
+ * @param type
+ * @param adr
+ */
 void SPort::ResetCalCoeff(int acp, int acpType, int p4, int p5, int cmd, int type, int adr)
 {
     bool flOK = false;
@@ -309,14 +424,22 @@ void SPort::ResetCalCoeff(int acp, int acpType, int p4, int p5, int cmd, int typ
     if (flOK){
         getDataFromPort(this, cmd, &flOK);
         if(!flOK){
-            QMessageBox::information(NULL, "Сообщение", "Ошибка чтения при записи сброса калибровочного коэффициента!");
+            QMessageBox::information(nullptr, "Сообщение", "Ошибка чтения при записи сброса калибровочного коэффициента!");
         }
     }else{
-        QMessageBox::information(NULL, "Сообщение", "Ошибка сброса коэффициента калибровки!");
+        QMessageBox::information(nullptr, "Сообщение", "Ошибка сброса коэффициента калибровки!");
     }
-}//=================================================================================================================//
+}
 
 //Контрольные измерения=============================================================================================//
+/**
+ * @brief SPort::controlMeasur
+ * @param func
+ * @param type
+ * @param addr
+ * @param izm
+ * @param log
+ */
 void SPort::controlMeasur(int func, int type, int addr, uint *izm, LogFile *log)
 {
     bool flOK = false;
@@ -369,9 +492,15 @@ void SPort::controlMeasur(int func, int type, int addr, uint *izm, LogFile *log)
        }
        log->addString(str);
     }
-}//=================================================================================================================//
+}
 
 //Запись в АЦП модулей уставок////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief SPort::writeSettingsAcp
+ * @param data
+ * @param low
+ * @param hi
+ */
 void SPort::writeSettingsAcp(DataModules *data, uint *low, uint *hi)
 {
     if(data->getTypeModule() == 4){
@@ -385,14 +514,14 @@ void SPort::writeSettingsAcp(DataModules *data, uint *low, uint *hi)
        writeDataAcp(data->getAddrDecMod().toInt(), 11 | (15 << 4), data->getTypeModule(), low+7, hi+7);
     }else{
         bool flOK = false;
-        TX[2] = (quint8)(*low & 0x00FF);
-        TX[3] = (quint8)(*low >> 8);
-        TX[4] = (quint8)(*hi & 0x00FF);
-        TX[5] = (quint8)(*hi >> 8);
-        TX[6] = (quint8)(*(low+1) & 0x00FF);
-        TX[7] = (quint8)(*(low+1) >> 8);
-        TX[8] = (quint8)(*(hi+1) & 0x00FF);
-        TX[9] = (quint8)(*(hi+1) >> 8);
+        TX[2] = static_cast<qint8>(*low & 0x00FF);
+        TX[3] = static_cast<qint8>(*low >> 8);
+        TX[4] = static_cast<qint8>(*hi & 0x00FF);
+        TX[5] = static_cast<qint8>(*hi >> 8);
+        TX[6] = static_cast<qint8>(*(low+1) & 0x00FF);
+        TX[7] = static_cast<qint8>(*(low+1) >> 8);
+        TX[8] = static_cast<qint8>(*(hi+1) & 0x00FF);
+        TX[9] = static_cast<qint8>(*(hi+1) >> 8);
 
         writePort(this, 11, data->getAddrDecMod().toInt(), 14 | (11 << 4), data->getTypeModule(), &flOK);
         if (flOK){
@@ -406,7 +535,14 @@ void SPort::writeSettingsAcp(DataModules *data, uint *low, uint *hi)
     }
 }
 
-
+/**
+ * @brief SPort::writeDataAcp
+ * @param adr
+ * @param cmd
+ * @param type
+ * @param low
+ * @param hi
+ */
 void SPort::writeDataAcp(int adr, int cmd, int type, uint *low, uint *hi)
 {
     bool flOK = false;
