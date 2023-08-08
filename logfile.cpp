@@ -6,7 +6,7 @@ LogFile::LogFile(QString pathFile)
 
     if(isDir()){
         if(!isFile()){
-            QMessageBox::critical(NULL, "Лог файл", "Произошла ошибка при открытии лог файла: "+logFile, QMessageBox::Ok);
+            QMessageBox::critical(nullptr, "Лог файл", "Произошла ошибка при открытии лог файла: "+logFile, QMessageBox::Ok);
         }
     }
 
@@ -37,7 +37,7 @@ QString LogFile::getHexFromBuf(char *buf, int size)
     ts.setFieldWidth(2);
     ts.setPadChar('0');
     for(int i=0; i<size; i++){
-        ts<<(quint8)buf[i]<<"  ";
+        ts<<static_cast<quint8>(buf[i])<<"  ";
     }
     return str;
 }
