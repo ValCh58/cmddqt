@@ -1,15 +1,25 @@
 #include "viewmodules.h"
 
+/**
+ * @brief ViewModules::ViewModules
+ * @param parent
+ */
 ViewModules::ViewModules(QWidget *parent):ViewBase(parent)
 {
 
 }
 
+/**
+ * @brief ViewModules::~ViewModules
+ */
 ViewModules::~ViewModules()
 {
 
 }
 
+/**
+ * @brief ViewModules::headerSize
+ */
 void ViewModules::headerSize()
 {
     QHeaderView *vheader = verticalHeader();

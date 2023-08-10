@@ -142,7 +142,7 @@ bool SPort::getDataFromPort(SPort *port, int cmd, bool *flagOK, int type)
       RX.clear();
       qint64 cntByte = port->thisPort->bytesAvailable();
       RX = port->thisPort->readAll();
-      logFile->appendString("Чтение "+ portName +";"+logFile->getHexFromBuf(RX.data(),cntByte));
+      logFile->appendString("Чтение "+ portName +";"+logFile->getHexFromBuf(RX.data(),static_cast<int>(cntByte)));
 
       int sz = kvkSIZ0[cmd] >> 4;
       if(type == 4)
@@ -151,10 +151,10 @@ bool SPort::getDataFromPort(SPort *port, int cmd, bool *flagOK, int type)
       if(sz != cntByte){
          logFile->appendString("Ошибка чтения "+ portName +";"+" Получено бaйт "+QString::number(cntByte)+" вместо "+QString::number(sz));
          *flagOK = false;
-      }else if((char)RX[sz-1] != crc(RX,sz-1)){
+      }else if(static_cast<char>(RX[sz-1]) != crc(RX,sz-1)){
          logFile->appendString("Ошибка чтения "+ portName +";"+"Неправильная контрольная сумма!");
          *flagOK = false;
-      }else if((quint8)RX[0] != (TX[0] | 0x80)){
+      }else if(static_cast<quint8>(RX[0]) != (TX[0] | 0x80)){
          logFile->appendString("Ошибка чтения "+ portName +";"+"Пришел неправильный ответ!");
          *flagOK = false;
       }else{
@@ -177,10 +177,10 @@ void SPort::saveSettingsModule(DataModules *data, quint8 adr, quint8 type, quint
 {
     bool trOK = false;
     int cmd = 14 | (2 << 4);
-    TX[2] = adr;
+    TX[2] = static_cast<char>(adr);
     TX[3] = 0;
-    TX[4] = type;
-    TX[5] = aver;
+    TX[4] = static_cast<char>(type);
+    TX[5] = static_cast<char>(aver);
 
     writePort(this, 7, data->getAddrDecMod().toInt(), cmd, data->getTypeModule(), &trOK);
     if(trOK){
@@ -221,7 +221,7 @@ void SPort::detectModuleTmOk(SPort *port, int cmd, int addr, bool *flag)
 void SPort::writeStartTestTM(SPort *port, int cmd, int addr, int N)
 {
     memset(TX,0,sizeof(TX));
-    TX[3] = N;
+    TX[3] = static_cast<char>(N);
     int sz = kvkSIZ0[cmd] & 0x0F;
     writePort(port, sz, addr, cmd);
 }
@@ -237,15 +237,15 @@ void SPort::handDataSearchModules(SPort *port, int line, int addr, int cmd)
 {
     bool flagOK;
 
-    if(!preparedDataRead(addr, cmd)){//Подготовка данных к приему
+    if(!preparedDataRead(static_cast<char>(addr), cmd)){//Подготовка данных к приему
         return;
     }
 
     if(getDataFromPort(port, cmd, &flagOK)){
        if(!RX.isEmpty()){
           if(flagOK){
-             RX[0] = line;//Номер внутренней линии//
-             RX[1] = addr;//Не используется//
+             RX[0] = static_cast<char>(line);//Номер внутренней линии//
+             RX[1] = static_cast<char>(addr);//Не используется//
           }else{
              RX.fill('a');
           }
@@ -267,7 +267,7 @@ void SPort::detectModule(SPort *port, int cmd, int addr)
      writePort(port, sz, addr, cmd);
      getDataFromPort(port, cmd, &flagOK);
      if(!flagOK){
-         QMessageBox::information(NULL, "Сообщение", "При посылке команды произошла ошибка!", QMessageBox::Ok);
+         QMessageBox::information(nullptr, "Сообщение", "При посылке команды произошла ошибка!", QMessageBox::Ok);
      }
 }
 
@@ -292,24 +292,24 @@ void SPort::makeMeasur(int cntMeasur, DataModules *data, bool *ok, uint *izmer)
     if(type != 4){
        readAcp(cmd1, adr, ok);
        if(*ok){
-          *(iAr + cntMeasur * 8 + 0) = (quint8)RX[2] + (quint8)(RX[3]<<8);
-          *(iAr + cntMeasur * 8 + 1) = (quint8)RX[4] + (quint8)(RX[5]<<8);
+          *(iAr + cntMeasur * 8 + 0) = static_cast<quint8>(RX[2]) + static_cast<quint8>(RX[3]<<8);
+          *(iAr + cntMeasur * 8 + 1) = static_cast<quint8>(RX[4]) + static_cast<quint8>(RX[5]<<8);
        }
 
     }else{
         readAcp(cmd1, adr, ok, type);
         if(*ok){
-           *(iAr + cntMeasur * 8 + 0) = (quint8)RX[2] + (quint8)(RX[3]<<8);
-           *(iAr + cntMeasur * 8 + 1) = (quint8)RX[4] + (quint8)(RX[5]<<8);
-           *(iAr + cntMeasur * 8 + 2) = (quint8)RX[6] + (quint8)(RX[7]<<8);
-           *(iAr + cntMeasur * 8 + 3) = (quint8)RX[8] + (quint8)(RX[9]<<8);
+           *(iAr + cntMeasur * 8 + 0) = static_cast<quint8>(RX[2]) + static_cast<quint8>(RX[3]<<8);
+           *(iAr + cntMeasur * 8 + 1) = static_cast<quint8>(RX[4]) + static_cast<quint8>(RX[5]<<8);
+           *(iAr + cntMeasur * 8 + 2) = static_cast<quint8>(RX[6]) + static_cast<quint8>(RX[7]<<8);
+           *(iAr + cntMeasur * 8 + 3) = static_cast<quint8>(RX[8]) + static_cast<quint8>(RX[9]<<8);
         }
         readAcp(cmd2, adr, ok, type);
         if(*ok){
-           *(iAr + cntMeasur * 8 + 4) = (quint8)RX[2] + (quint8)(RX[3]<<8);
-           *(iAr + cntMeasur * 8 + 5) = (quint8)RX[4] + (quint8)(RX[5]<<8);
-           *(iAr + cntMeasur * 8 + 6) = (quint8)RX[6] + (quint8)(RX[7]<<8);
-           *(iAr + cntMeasur * 8 + 7) = (quint8)RX[8] + (quint8)(RX[9]<<8);
+           *(iAr + cntMeasur * 8 + 4) = static_cast<quint8>(RX[2]) + static_cast<quint8>(RX[3]<<8);
+           *(iAr + cntMeasur * 8 + 5) = static_cast<quint8>(RX[4]) + static_cast<quint8>(RX[5]<<8);
+           *(iAr + cntMeasur * 8 + 6) = static_cast<quint8>(RX[6]) + static_cast<quint8>(RX[7]<<8);
+           *(iAr + cntMeasur * 8 + 7) = static_cast<quint8>(RX[8]) + static_cast<quint8>(RX[9]<<8);
         }
     }
 }
@@ -357,19 +357,19 @@ void SPort::makeWriteCalFactor(int type, int ma20_40, int numCh, int adr, uint *
 {
     bool trOK = false;
     int cmd = (numCh < 4)?(14 | (5 << 4)):(12 | (5 << 4));
-    TX[2] = numCh+1;
-    TX[3] = ma20_40;
-    TX[4] = izmer[numCh] & 0xFF;
-    TX[5] = izmer[numCh] >> 8;
+    TX[2] = static_cast<char>(numCh+1);
+    TX[3] = static_cast<char>(ma20_40);
+    TX[4] = static_cast<char>(izmer[numCh] & 0xFF);
+    TX[5] = static_cast<char>(izmer[numCh] >> 8);
 
     writePort(this, 7, adr, cmd, type, &trOK);
     if(trOK){
         getDataFromPort(this, cmd, &trOK);
         if(!trOK){
-            QMessageBox::information(NULL, "Сообщение", "Ошибка чтения при записи калибровочного коэффициента!");
+            QMessageBox::information(nullptr, "Сообщение", "Ошибка чтения при записи калибровочного коэффициента!");
         }
     }else{
-        QMessageBox::information(NULL, "Сообщение", "Ошибка записи калибровочного коэффициента!");
+        QMessageBox::information(nullptr, "Сообщение", "Ошибка записи калибровочного коэффициента!");
     }
 }
 
@@ -416,10 +416,10 @@ void SPort::ResetCalCoeff(int acp, int acpType, int p4, int p5, int cmd, int typ
 {
     bool flOK = false;
 
-    TX[2] = acp; // ACP
-    TX[3] = acpType; // TYPE
-    TX[4] = p4;
-    TX[5] = p5;
+    TX[2] = static_cast<char>(acp); // ACP
+    TX[3] = static_cast<char>(acpType); // TYPE
+    TX[4] = static_cast<char>(p4);
+    TX[5] = static_cast<char>(p5);
     writePort(this, 7, adr, cmd, type, &flOK);
     if (flOK){
         getDataFromPort(this, cmd, &flOK);
@@ -527,10 +527,10 @@ void SPort::writeSettingsAcp(DataModules *data, uint *low, uint *hi)
         if (flOK){
             getDataFromPort(this, 14 | (11 << 4), &flOK);
             if(!flOK){
-               QMessageBox::information(NULL, "Сообщение", "Ошибка чтения ответа при записи уставок!");
+               QMessageBox::information(nullptr, "Сообщение", "Ошибка чтения ответа при записи уставок!");
             }
         }else{
-              QMessageBox::information(NULL, "Сообщение", "Ошибка записи уставок!");
+              QMessageBox::information(nullptr, "Сообщение", "Ошибка записи уставок!");
         }
     }
 }
@@ -546,10 +546,10 @@ void SPort::writeSettingsAcp(DataModules *data, uint *low, uint *hi)
 void SPort::writeDataAcp(int adr, int cmd, int type, uint *low, uint *hi)
 {
     bool flOK = false;
-    TX[2] = (qint8)(*low & 0x00FF);
-    TX[3] = (qint8)(*low >> 8);
-    TX[4] = (qint8)(*hi & 0x00FF);
-    TX[5] = (qint8)(*hi >> 8);
+    TX[2] = static_cast<char>(*low & 0x00FF);
+    TX[3] = static_cast<char>(*low >> 8);
+    TX[4] = static_cast<char>(*hi & 0x00FF);
+    TX[5] = static_cast<char>(*hi >> 8);
 
     writePort(this, 7, adr, cmd, type, &flOK);
     if (flOK){
@@ -711,23 +711,23 @@ void SPort::WriteRateConst(DataModules *data, uint *low, uint *hi)
        writeDataAcp(data->getAddrDecMod().toInt(), 10 | (15 << 4), data->getTypeModule(), low+7, hi+7);
     }else{
         bool flOK = false;
-        TX[2] = (quint8)(*low & 0x00FF);
-        TX[3] = (quint8)(*low >> 8);
-        TX[4] = (quint8)(*hi & 0x00FF);
-        TX[5] = (quint8)(*hi >> 8);
-        TX[6] = (quint8)(*(low+1) & 0x00FF);
-        TX[7] = (quint8)(*(low+1) >> 8);
-        TX[8] = (quint8)(*(hi+1) & 0x00FF);
-        TX[9] = (quint8)(*(hi+1) >> 8);
+        TX[2] = static_cast<char>(*low & 0x00FF);
+        TX[3] = static_cast<char>(*low >> 8);
+        TX[4] = static_cast<char>(*hi & 0x00FF);
+        TX[5] = static_cast<char>(*hi >> 8);
+        TX[6] = static_cast<char>(*(low+1) & 0x00FF);
+        TX[7] = static_cast<char>(*(low+1) >> 8);
+        TX[8] = static_cast<char>(*(hi+1) & 0x00FF);
+        TX[9] = static_cast<char>(*(hi+1) >> 8);
 
         writePort(this, 11, data->getAddrDecMod().toInt(), 14 | (15 << 4), data->getTypeModule(), &flOK);
         if (flOK){
             getDataFromPort(this, 14 | (11 << 4), &flOK);
             if(!flOK){
-               QMessageBox::information(NULL, "Сообщение", "Ошибка чтения ответа при записи констант!");
+               QMessageBox::information(nullptr, "Сообщение", "Ошибка чтения ответа при записи констант!");
             }
         }else{
-              QMessageBox::information(NULL, "Сообщение", "Ошибка записи констант!");
+              QMessageBox::information(nullptr, "Сообщение", "Ошибка записи констант!");
         }
     }
 }
@@ -763,10 +763,10 @@ void SPort::getDataAcp_1_8(int adr, int cmd, int type, uint *low, uint *hi)
              *low = (quint8)RX[2] + ((quint8)RX[3] << 8);
              *hi  = (quint8)RX[4] + ((quint8)RX[5] << 8);
         }else{
-           QMessageBox::information(NULL, "Сообщение", "Ошибка ответа от порта при чтения!");
+           QMessageBox::information(nullptr, "Сообщение", "Ошибка ответа от порта при чтения!");
         }
     }else{
-          QMessageBox::information(NULL, "Сообщение", "Ошибка записи в порт при чтения!");
+          QMessageBox::information(nullptr, "Сообщение", "Ошибка записи в порт при чтения!");
     }
 }
 
@@ -801,7 +801,7 @@ void SPort::prepareDataTX(SPort *port, char addr, int cmd, int type)
 
     if(sz){
        port->TX[0] = addr;
-       port->TX[1] = cmd;
+       port->TX[1] = static_cast<char>(cmd);
        port->TX[sz-1] = port->crc(port->TX, sz-1);
     }
 

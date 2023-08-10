@@ -11,11 +11,18 @@
 
 #include "Style.h"
 
+/**
+ * @brief Style::Style
+ */
+Style::Style() : QProxyStyle(QStyleFactory::create(/*"windows"*/"macintosh")) {}
 
-Style::Style() : QProxyStyle(QStyleFactory::create(/*"windows"*/"macintosh")) {
-}
-
-
+/**
+ * @brief Style::drawControl
+ * @param element
+ * @param option
+ * @param painter
+ * @param widget
+ */
 void Style::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
   switch(element) {
@@ -100,7 +107,13 @@ void Style::drawControl(QStyle::ControlElement element, const QStyleOption *opti
   }
 }
 
-
+/**
+ * @brief Style::drawPrimitive
+ * @param pe
+ * @param option
+ * @param painter
+ * @param widget
+ */
 void Style::drawPrimitive(QStyle::PrimitiveElement pe, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
   switch(pe) {
     case PE_PanelItemViewRow:  // Область выделенного ряда таблицы

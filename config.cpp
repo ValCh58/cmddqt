@@ -2,7 +2,11 @@
 #include "config.h"
 #include "ccmbb.h"
 
-
+/**
+ * @brief config::config
+ * @param parent
+ * @param f
+ */
 config::config(QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
 {
   initDataPorts();//Чтение настроек портов из файла Config.xml//
@@ -90,6 +94,10 @@ config::config(QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
   connect(btCnl, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
+/**
+ * @brief config::initCmbBox
+ * @param cmb
+ */
 void config::initCmbBox(QComboBox *cmb)
 {
     for(int i=0; i < listCom.size(); i++) {
@@ -100,6 +108,11 @@ void config::initCmbBox(QComboBox *cmb)
     }
 }
 
+/**
+ * @brief config::getInfoCom
+ * @param str
+ * @return
+ */
 bool config::getInfoCom(QString str)
 {
     bool ret = false;
@@ -113,6 +126,11 @@ bool config::getInfoCom(QString str)
     return ret;
 }
 
+/**
+ * @brief config::helpInfoSerial
+ * @param com
+ * @param helpLine
+ */
 void config::helpInfoSerial(QString com, QString *helpLine)
 {   helpLine->clear();
     foreach (QSerialPortInfo var, infoList) {
@@ -128,6 +146,11 @@ void config::helpInfoSerial(QString com, QString *helpLine)
         *helpLine = "Нет данных";
 }
 
+/**
+ * @brief config::getNamePort
+ * @param com
+ * @return
+ */
 QString config::getNamePort(QString com)
 {
     QString namePortSys = "";
@@ -140,17 +163,29 @@ QString config::getNamePort(QString com)
     }
     return namePortSys;
 }
+
+/**
+ * @brief config::getCmbBod
+ * @return
+ */
 QComboBox *config::getCmbBod() const
 {
     return cmbBod;
 }
 
+/**
+ * @brief config::initDataPorts
+ */
 void config::initDataPorts()
 {
     xmlDoc = new XmlDocument("config.xml");
     xmlDoc->parserCfgCom();
 }
 
+/**
+ * @brief config::changeLine1
+ * @param idx
+ */
 void config::changeLine1(int idx)
 {
     XmlDocument::cfgMap["Line1"] = idx;
@@ -158,6 +193,10 @@ void config::changeLine1(int idx)
     cmbLine1->setWhatsThis(*helpLine1);
 }
 
+/**
+ * @brief config::changeLine2
+ * @param idx
+ */
 void config::changeLine2(int idx)
 {
     XmlDocument::cfgMap["Line2"] = idx;
@@ -165,6 +204,10 @@ void config::changeLine2(int idx)
     cmbLine2->setWhatsThis(*helpLine2);
 }
 
+/**
+ * @brief config::changeBod
+ * @param idx
+ */
 void config::changeBod(int idx)
 {
     int bitSec = cmbBod->itemText(idx).toInt();
@@ -172,21 +215,36 @@ void config::changeBod(int idx)
     XmlDocument::cfgMap["BaudRate"] = idx;
 }
 
+/**
+ * @brief config::changeByteSize
+ * @param val
+ */
 void config::changeByteSize(int val)
 {
     XmlDocument::cfgMap["ByteSize"] = val;
 }
 
+/**
+ * @brief config::changeParity
+ * @param val
+ */
 void config::changeParity(int val)
 {
     XmlDocument::cfgMap["Parity"] = val;
 }
 
+/**
+ * @brief config::changeStopBit
+ * @param val
+ */
 void config::changeStopBit(int val)
 {
     XmlDocument::cfgMap["StopBit"] = val;
 }
 
+/**
+ * @brief config::saveConfig
+ */
 void config::saveConfig()
 {
    MainWindow *mwindow = (MainWindow*)parent();
@@ -224,7 +282,9 @@ void config::saveConfig()
     accept();
 }
 
-
+/**
+ * @brief config::~config
+ */
 config::~config()
 {
     if(xmlDoc)

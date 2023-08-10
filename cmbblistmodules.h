@@ -12,7 +12,7 @@ class CmbbListModules : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    CmbbListModules(QObject *parent);
+    CmbbListModules(QObject *parent=nullptr);
     ~CmbbListModules();
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     int getColumns() const;

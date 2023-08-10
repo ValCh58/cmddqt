@@ -5,35 +5,61 @@
 
 #include "cmbblistmodules.h"
 
-
-CmbbListModules::CmbbListModules(QObject *parent=0):QAbstractTableModel(parent)
+/**
+ * @brief CmbbListModules::CmbbListModules
+ * @param parent
+ */
+CmbbListModules::CmbbListModules(QObject *parent):QAbstractTableModel(parent)
 {
     columns = 11;
     dataMod = new QList<DataModules>();
 }
 
+/**
+ * @brief CmbbListModules::~CmbbListModules
+ */
 CmbbListModules::~CmbbListModules()
 {
-
+   delete dataMod;
 }
 
+/**
+ * @brief CmbbListModules::columnCount
+ * @param parent
+ * @return
+ */
 int CmbbListModules::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return getColumns();
 }
 
+/**
+ * @brief CmbbListModules::getColumns
+ * @return
+ */
 int CmbbListModules::getColumns() const
 {
     return columns;
 }
 
+/**
+ * @brief CmbbListModules::rowCount
+ * @param parent
+ * @return
+ */
 int CmbbListModules::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return dataMod->size();
 }
 
+/**
+ * @brief CmbbListModules::data
+ * @param index
+ * @param role
+ * @return
+ */
 QVariant CmbbListModules::data(const QModelIndex &index, int role) const
 {
     switch(role){
@@ -43,6 +69,7 @@ QVariant CmbbListModules::data(const QModelIndex &index, int role) const
         if (index.isValid() && role == Qt::DisplayRole)
             return getData(index.row(), index.column());
     }
+    [[clang::fallthrough]];
     case Qt::TextAlignmentRole: // Выравнивание
          return int(Qt::AlignHCenter | Qt::AlignVCenter);
 
@@ -55,7 +82,7 @@ QVariant CmbbListModules::data(const QModelIndex &index, int role) const
         //   return qVariantFromValue(QColor(238, 233, 233));
         //}
         DataModules dm = dataMod->at(index.row());
-        int color = dm.getColorModuleRow();
+        uint color = dm.getColorModuleRow();
         return qVariantFromValue(QColor(color));
 
     }
@@ -70,6 +97,13 @@ QVariant CmbbListModules::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+/**
+ * @brief CmbbListModules::headerData
+ * @param section
+ * @param orientation
+ * @param role
+ * @return
+ */
 QVariant CmbbListModules::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole)
@@ -108,6 +142,11 @@ QVariant CmbbListModules::headerData(int section, Qt::Orientation orientation, i
     return QVariant();
 }
 
+/**
+ * @brief CmbbListModules::flags
+ * @param index
+ * @return
+ */
 Qt::ItemFlags CmbbListModules::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -116,6 +155,10 @@ Qt::ItemFlags CmbbListModules::flags(const QModelIndex &index) const
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
+/**
+ * @brief CmbbListModules::addCommand
+ * @param newData
+ */
 void CmbbListModules::addCommand(DataModules &newData)
 {
     beginInsertRows(QModelIndex(), dataMod->size(), dataMod->size());
@@ -123,6 +166,10 @@ void CmbbListModules::addCommand(DataModules &newData)
     endInsertRows();
 }
 
+/**
+ * @brief CmbbListModules::delCommand
+ * @param index
+ */
 void CmbbListModules::delCommand(const QModelIndex &index)
 {
     beginRemoveRows(QModelIndex(), index.row(), index.row());
@@ -130,21 +177,37 @@ void CmbbListModules::delCommand(const QModelIndex &index)
     endRemoveRows();
 }
 
+/**
+ * @brief CmbbListModules::getDataModules
+ * @param index
+ * @return
+ */
 DataModules &CmbbListModules::getDataModules(int index) const
 {
     return(*dataMod)[index];
 }
 
+/**
+ * @brief CmbbListModules::setDataModulesToModel
+ */
 void CmbbListModules::setDataModulesToModel()
 {
-  qDebug()<<"Debug=>setDataModulesToModel";
+  ; //qDebug()<<"Debug=>setDataModulesToModel";
 }
+
+/**
+ * @brief CmbbListModules::getDataMod
+ * @return
+ */
 QList<DataModules> *CmbbListModules::getDataMod() const
 {
     return dataMod;
 }
 
 //Очистка модели от данных//
+/**
+ * @brief CmbbListModules::clearModel
+ */
 void CmbbListModules::clearModel()
 {
     if(dataMod->size()>0){
@@ -154,6 +217,12 @@ void CmbbListModules::clearModel()
     }
 }
 
+/**
+ * @brief CmbbListModules::getData
+ * @param row
+ * @param col
+ * @return
+ */
 QVariant CmbbListModules::getData(int row, int col) const
 {
     switch(col){

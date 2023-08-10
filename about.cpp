@@ -17,12 +17,12 @@ About::About(QWidget *parent, Qt::WindowFlags f):QDialog(parent,f)
    imageLab->setPixmap(pix);
    //=======================================================================================//
    aboutName = new QLabel("Программа CMBB.\nКонфигуратор сети модулей\nввода-вывода САУ ГПА,\n"
-                          "тестовая программа в комплексе\nс пультом ремонта и настройки.\n");
+                          " версия 6.0.1\n");
    aboutName->setStyleSheet(QString("font-size: 15px;color: gray;font-style:italic;"));
    //aboutName->setFrameStyle(QFrame::Panel | QFrame::Sunken);
    ownerName = new QLabel("\"Электронные информационные системы\",\nРоссия, Екатеринбург.");
    devName = new QLabel("Разработчики Орехов Николай Сергеевич,\n Лопатин Даниил Алексеевич.");
-   qtName = new QLabel("Перевод на платформу <img src=':/cmbbImages/qt.png'> В.В. Черных.");
+   qtName = new QLabel("Перевод на платформу <img src=':/cmbbImages/qt.png'> и дальнейшая разработка В.В. Черных.");
    QPushButton *button = new QPushButton("Ok");
 
    QHBoxLayout *layoutHBox = new QHBoxLayout;

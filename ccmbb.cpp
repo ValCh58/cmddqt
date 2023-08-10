@@ -1079,8 +1079,10 @@ void MainWindow::makeSetPoint()
  */
 void MainWindow::printError(QString strMess)
 {
+  QString strMsgSys = strMess;//Сообщение системное!//
   QString strErr = "Порт не найден.";
-  QMessageBox::critical(this, "Сообщение", /*strMess*/strErr, QMessageBox::Ok );
+  //QMessageBox::critical(this, "Сообщение", strMsgSys, QMessageBox::Ok );
+  QMessageBox::critical(this, "Сообщение", strErr, QMessageBox::Ok );
 }
 
 //Получение  выбранного QModelIndex ==========================================================================//

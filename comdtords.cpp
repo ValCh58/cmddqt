@@ -12,6 +12,12 @@
 extern QMutex mutex;
 extern QWaitCondition wait;
 
+/**
+ * @brief CmdToRds::CmdToRds
+ * @param portname
+ * @param rds
+ * @param parent
+ */
 CmdToRds::CmdToRds(QString portname, QList<discretRDS *> rds, QObject *parent) : QObject(parent)
 
 {
@@ -29,11 +35,18 @@ CmdToRds::CmdToRds(QString portname, QList<discretRDS *> rds, QObject *parent) :
 
 }
 
+/**
+ * @brief CmdToRds::~CmdToRds
+ */
 CmdToRds::~CmdToRds()
 {
    disconnectPort(port);
 }
 
+/**
+ * @brief CmdToRds::ctrlPorts
+ * @return
+ */
 bool CmdToRds::ctrlPorts()
 {
     bool retConnect = false;
@@ -41,6 +54,10 @@ bool CmdToRds::ctrlPorts()
     return retConnect = port->isOpen();
 }
 
+/**
+ * @brief CmdToRds::connectPort
+ * @param thisPort
+ */
 void CmdToRds::connectPort(QSerialPort *thisPort)
 {
     if(thisPort->open(QIODevice::ReadWrite)){
@@ -54,6 +71,10 @@ void CmdToRds::connectPort(QSerialPort *thisPort)
     }
 }
 
+/**
+ * @brief CmdToRds::disconnectPort
+ * @param thisPort
+ */
 void CmdToRds::disconnectPort(QSerialPort *thisPort)
 {
     if(thisPort->isOpen()){
@@ -62,6 +83,11 @@ void CmdToRds::disconnectPort(QSerialPort *thisPort)
     }
 }
 
+/**
+ * @brief CmdToRds::writeSettingsPort
+ * @param thisPort
+ * @return
+ */
 bool CmdToRds::writeSettingsPort(QSerialPort *thisPort)
 {
     bool result = false;
@@ -77,6 +103,12 @@ bool CmdToRds::writeSettingsPort(QSerialPort *thisPort)
     return result;
 }
 
+/**
+ * @brief CmdToRds::crc
+ * @param buf
+ * @param sz
+ * @return
+ */
 char CmdToRds::crc(const char *buf, const int sz)
 {
     int sum = 0;
@@ -86,6 +118,13 @@ char CmdToRds::crc(const char *buf, const int sz)
 }
 
 //Подготовка данных к передаче.//////////////////////////////////////
+/**
+ * @brief CmdToRds::prepareDataTX
+ * @param addr
+ * @param cmd
+ * @param type
+ * @return
+ */
 int CmdToRds::prepareDataTX(char addr, int cmd, int type)
 {
     int sz = getSizeByte(type, cmd);
@@ -98,6 +137,12 @@ int CmdToRds::prepareDataTX(char addr, int cmd, int type)
     return sz;
 }
 
+/**
+ * @brief CmdToRds::getSizeByte
+ * @param type
+ * @param command
+ * @return
+ */
 int CmdToRds::getSizeByte(int type, int command)
 {
     int sz = kvkSIZ0[command] & 0x0F;
@@ -107,6 +152,12 @@ int CmdToRds::getSizeByte(int type, int command)
 }
 
 //Подготовка данных к приему./////////////////////////////////////////
+/**
+ * @brief CmdToRds::preparedDataRead
+ * @param addr
+ * @param cmd
+ * @return
+ */
 bool CmdToRds::preparedDataRead(char addr, int cmd)
 {
     int sz = kvkSIZ0[cmd] >> 4;
@@ -122,8 +173,13 @@ int CmdToRds::getSizeByteRead(int type, int command)
        sz = kvkSIZ01[command] >> 4;
     return sz;
 }
-//====================================================================//
 
+/**
+ * @brief CmdToRds::getHexFromBuf
+ * @param buf
+ * @param size
+ * @return
+ */
 QString CmdToRds::getHexFromBuf(char *buf, int size)
 {
     QString str;
@@ -137,7 +193,15 @@ QString CmdToRds::getHexFromBuf(char *buf, int size)
     return str;
 }
 
-//Из порта////////////////////////////////////////////////////////////////////////////////////////////////////
+//Из порта////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief CmdToRds::getDataFromPort
+ * @param thisPort
+ * @param cmd
+ * @param flagOK
+ * @param type
+ * @return
+ */
 bool CmdToRds::getDataFromPort(QSerialPort *thisPort, int cmd, bool *flagOK, int type)
 {
    if(thisPort->waitForReadyRead(READ_TIMEOUT)){
@@ -164,7 +228,15 @@ bool CmdToRds::getDataFromPort(QSerialPort *thisPort, int cmd, bool *flagOK, int
    }
 }
 
-// В порт /////////////////////////////////////////////////////////////////////////////////////////////////////
+// В порт //////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief CmdToRds::writePort
+ * @param thisPort
+ * @param addr
+ * @param CMD
+ * @param type
+ * @param flag
+ */
 void CmdToRds::writePort(QSerialPort *thisPort, int addr, int CMD, int type, bool *flag)
 {
     int size = prepareDataTX(addr, CMD, type);//Подготовка данных
@@ -181,7 +253,10 @@ void CmdToRds::writePort(QSerialPort *thisPort, int addr, int CMD, int type, boo
     }
 }
 
-
+/**
+ * @brief CmdToRds::commandToRDSNNC
+ * @return
+ */
 bool CmdToRds::commandToRDSNNC()
 {
     if(cnt < rdsLine.size()){
@@ -249,8 +324,11 @@ bool CmdToRds::commandToRDSNNC()
 
     return true;
 }
-//============================================================================================================//
 
+/**
+ * @brief CmdToRds::dataToTX
+ * @param data
+ */
 void CmdToRds::dataToTX(ulong data)
 {
     union{
@@ -263,6 +341,9 @@ void CmdToRds::dataToTX(ulong data)
     }
 }
 
+/**
+ * @brief CmdToRds::fromRxToUrx
+ */
 void CmdToRds::fromRxToUrx()
 {
    for(int i=0; i<4; i++){
@@ -270,6 +351,9 @@ void CmdToRds::fromRxToUrx()
    }
 }
 
+/**
+ * @brief CmdToRds::writeSin
+ */
 void CmdToRds::writeSin()
 {
     //qDebug()<<"Sin Begin"<<QThread::currentThreadId();
@@ -277,17 +361,29 @@ void CmdToRds::writeSin()
     QThread::msleep(4);
 }
 
+/**
+ * @brief CmdToRds::startWriteToRDS
+ */
 void CmdToRds::startWriteToRDS()
 {
     writeSin();
     commandToRDSNNC();
 }
 
+/**
+ * @brief CmdToRds::testTimer
+ */
 void CmdToRds::testTimer()
 {
-    qDebug()<<"TestTimer Sin:";
+    ;//qDebug()<<"TestTimer Sin:";
 }
 
+/**
+ * @brief CmdToRds::slReqPort
+ * @param mod
+ * @param cmd
+ * @param rds
+ */
 void CmdToRds::slReqPort(DataModules *mod, int cmd, discretRDS *rds)
 {
     mutex.lock();
@@ -303,12 +399,25 @@ void CmdToRds::slReqPort(DataModules *mod, int cmd, discretRDS *rds)
 
 }
 
+/**
+ * @brief CmdToRds::slSendWord
+ * @param wrd
+ */
 void CmdToRds::slSendWord(ulong wrd)
 {
      emit sigSetIndColor(wrd);
      //qDebug()<<"ComWord from port:"<<wrd<<" idThread:"<<QThread::currentThreadId();
 }
 
+/**
+ * @brief CmdToRds::writeModule
+ * @param thisPort
+ * @param mod
+ * @param cmd
+ * @param rds
+ * @param rw
+ * @return
+ */
 bool CmdToRds::writeModule(QSerialPort *thisPort, DataModules *mod, int cmd , discretRDS *rds, bool rw){
 
     bool flagOK, readOK, retVal = true;
