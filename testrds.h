@@ -30,13 +30,13 @@ class TestRDS : public QDialog
 
 public:
     explicit TestRDS(QWidget * parent=0, Qt::WindowFlags f=Qt::Drawer);
-    ~TestRDS();
+    virtual ~TestRDS();
 
     void addRDS(DataModules mod, int type);
-    CmdToRds *cmdToRdsLine1;
-    CmdToRds *cmdToRdsLine2;
-    QThread *thrTestLine1;
-    QThread *thrTestLine2;
+    CmdToRds *cmdToRdsLine1 = nullptr;
+    CmdToRds *cmdToRdsLine2 = nullptr;
+    QThread *thrTestLine1 = nullptr;
+    QThread *thrTestLine2 = nullptr;
     QList<discretRDS*> listRDS;
     QList<discretRDS*> rdsLine1;//Модули линии 1//
     QList<discretRDS*> rdsLine2;//Модули линии 2//
@@ -55,7 +55,7 @@ private:
     QPushButton *btnWrite;//Записать команду
     QPushButton *btnStop;//Остановить запись команды
 
-    QTimer *tmr;
+    QTimer *tmr = nullptr;
     void controlPorts(bool flag);
     bool stopThread(QThread *tr);
     void stop_worker(QThread *tr);

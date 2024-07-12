@@ -2,8 +2,8 @@
 #define MYDATAPORT_H
 
 #include <qobject.h>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 #include "logfile.h"
 #include "protocol.h"
@@ -36,7 +36,7 @@ private:
     bool getDataFromPort(MyDataPort *port, int cmd, bool *flagOK, int type=0);
     void prepareDataTX(MyDataPort *port, quint8 addr, quint8 cmd, int type=0);
     bool preparedDataRead(char addr, int cmd);
-    void writeDataAcp(quint8 adrMod, quint8 cmd, quint8 numDac, quint8 srvDat, quint8 *low, quint8 *hi);
+    void writeDataAcp(quint8 adrMod, quint8 cmd/*, quint8 numDac, quint8 srvDat, quint8 *low, quint8 *hi*/);
     int getSizeByte(int type, int command);
 
 signals:

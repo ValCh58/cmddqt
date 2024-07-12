@@ -4,7 +4,7 @@
 #include <QVector>
 #include <QMap>
 #include <QString>
-#include "tinyxml\tinyxml.h"
+#include "tinyxml/tinyxml.h"
 
 #define BTNPREV  0x01
 #define BTNNEXT  0x02

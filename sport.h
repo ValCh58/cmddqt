@@ -2,8 +2,8 @@
 #define SPORT_H
 
 #include <QObject>
-#include <QSerialPort>
-#include <QSerialPortInfo>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include "logfile.h"
 #include "protocol.h"
 #include "datamodules.h"

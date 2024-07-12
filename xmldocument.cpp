@@ -1,17 +1,20 @@
-#include "xmldocument.h"
+
 #include <QMessageBox>
 #include <QObject>
 #include <QDebug>
+
+#include "xmldocument.h"
 
 QMap<QString, int> XmlDocument::cfgMap;
 
 XmlDocument::XmlDocument(QString file, QObject *parent):QObject(parent)
 {
-    fileXML = file;
+     fileXML = file;
 }
 
 XmlDocument::~XmlDocument()
 {
+
 }
 
 void XmlDocument::parserCfgCom()
@@ -21,18 +24,24 @@ void XmlDocument::parserCfgCom()
     closeFileXML();
 }
 
+void XmlDocument::saveCfgCom()
+{
+    OpenFileXML();
+    setAttributes();
+    closeFileXML();
+}
+
 
 void XmlDocument::OpenFileXML()
 {
-    xmlFile = new QFile(fileXML);
-            if (!xmlFile->open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::WriteOnly)) {
-                    QMessageBox::critical(NULL, "Ошибка загрузки файла XML",
-                    "Невозможно открыть файл конфигурации com - портов:" + fileXML, QMessageBox::Ok);
-                    return;
-            }
-    xmlReader = new QXmlStreamReader(xmlFile);
-
-
+   xmlFile = new QFile(fileXML);
+      if (!xmlFile->open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::WriteOnly)) {
+          QMessageBox::critical(NULL, "Ошибка загрузки файла XML",
+                   "Невозможно открыть файл конфигурации com - портов:" + fileXML, QMessageBox::Ok);
+         if(xmlFile) {delete xmlFile;}
+         return;
+      }
+    //xmlReader = std::make_unique<QXmlStreamReader>(xmlFile);
 }
 
 void XmlDocument::closeFileXML()
@@ -43,10 +52,12 @@ void XmlDocument::closeFileXML()
     if(xmlFile){
        xmlFile->close();
     }
+    delete xmlFile;
 }
 
 void XmlDocument::getAttributes()
 {
+    xmlReader = std::make_unique<QXmlStreamReader>(xmlFile);
 
     while(!xmlReader->atEnd() && !xmlReader->hasError()) {
           QXmlStreamReader::TokenType token = xmlReader->readNext();
@@ -119,12 +130,6 @@ void XmlDocument::setAttributes()
     xmlWriter.writeEndDocument();
 }
 
-void XmlDocument::saveCfgCom()
-{
-    OpenFileXML();
-    setAttributes();
-    closeFileXML();
 
-}
 
 

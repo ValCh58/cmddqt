@@ -16,7 +16,7 @@
 #include "viewmodules.h"
 #include "cmbblistmodules.h"
 #include "modules.h"
-#include "tinyxml\tinyxml.h"
+#include "tinyxml/tinyxml.h"
 #include "cmbblistmodules.h"
 #include "myprogressbar.h"
 #include "logfile.h"
@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    virtual ~MainWindow();
     ViewModules *getViewmodul() const;
     CmbbListModules *getListModul() const;
     void setListModul(CmbbListModules *value);
@@ -49,78 +49,77 @@ public:
 private:
     //========Меню===================//
     //--Меню файл-------------------//
-    QMenu *menuFile;
+    QMenu *menuFile = nullptr;
     //QMenu *subMenuOpen;
      // QAction *actConfigModules;
      // QAction *actDescripAnalogSignals;
-    QAction *actExit;
+    QAction *actExit = nullptr;
     //--Меню модули-----------------//
-    QMenu *menuModules;
-    QAction *actSearchModule;
-    QAction *actCheckTecModule;
-    QAction *actTestModule;
-    QAction *actTestRds;
-    QAction *actTestRdsHHC;
+    QMenu *menuModules = nullptr;
+    QAction *actSearchModule = nullptr;
+    QAction *actCheckTecModule = nullptr;
+    QAction *actTestModule = nullptr;
+    QAction *actTestRds = nullptr;
+    QAction *actTestRdsHHC = nullptr;
     //--Меню сервис-----------------//
-    QMenu *menuService;
-     QMenu *subMenuIndication;
-      QAction *actIndOn;
-      QAction *actIndOff;
-      QAction *actIndFlash;
-    QAction *actSync;
-    QAction *actConstSpeed;
+    QMenu *menuService = nullptr;
+    QMenu *subMenuIndication = nullptr;
+    QAction *actIndOn = nullptr;
+    QAction *actIndOff = nullptr;
+    QAction *actIndFlash = nullptr;
+    QAction *actSync = nullptr;
+    QAction *actConstSpeed = nullptr;
     //QAction *actControlACP;
-    QAction *actResetID;
-    QAction *actResetKo;
-    QAction *actMBAC;
+    QAction *actResetID = nullptr;
+    QAction *actResetKo = nullptr;
+    QAction *actMBAC = nullptr;
     //QAction *actSettingModule;
     //--Меню помощь-----------------//
     QMenu *menuHelp;
     QAction *actAbout;
     //===============================//
-    QAction *actCalibr;
-    QAction *actSetting;
-    QAction *actFindItem;
-    QAction *actSetpoint;
-    QToolBar *toolBar;
+    QAction *actCalibr = nullptr;
+    QAction *actSetting = nullptr;
+    QAction *actFindItem = nullptr;
+    QAction *actSetpoint = nullptr;
+    QToolBar *toolBar = nullptr;
     void createToolBar();
     void createActions();
     void createMenus();
-    ViewModules * viewmodul;
-    CmbbListModules *listModul;
-    QSortFilterProxyModel *proxyModel;
+    ViewModules * viewmodul = nullptr;
+    CmbbListModules *listModul = nullptr;
+    QSortFilterProxyModel *proxyModel = nullptr;
     int LINE_COUNT;
-    QList<QByteArray> *bufBytesRead;
+    QList<QByteArray> *bufBytesRead = nullptr;
     void initView();
     bool loadTypeModules(QString file);
-    QList<Modules> *listTypeModules;
+    QList<Modules> *listTypeModules = nullptr;
     void loadModulesToModel();
     QString getTypeModule(int type);
     uint getColorModule(int type);
-    QMap<QString,AdcPloAddr> *mapAdcPloAddr;
-    QMap<QString,Adcs> *mapAdcs;
+    QMap<QString,AdcPloAddr> *mapAdcPloAddr = nullptr;
+    QMap<QString,Adcs> *mapAdcs = nullptr;
     void loadAdcPloAddr(QString strFile);
     void loadAdcs(QString fileName);
     QString getKeyAdcPlo(QString k1, QString k2);
-    MyProgressBar *prg;
+    MyProgressBar *prg = nullptr;
     void activateProgress();
     void deactivateProgress();
     void commandControlInd(quint8 cmd);
     DataModules getItemDataProxyModel(QModelIndex modIdx);
-    CalibrateDialog *calibr;
-    SettingsAnalog *setanalog;
-    RateConstants *rateConst;
-    SettingModule *setModule;
-    CalibrationMBAC *calibrationMBAC;
+    CalibrateDialog *calibr = nullptr;
+    SettingsAnalog *setanalog = nullptr;
+    RateConstants *rateConst = nullptr;
+    SettingModule *setModule = nullptr;
+    CalibrationMBAC *calibrationMBAC = nullptr;
 
     DataModules techModule;
     bool checkModules(DataModules module, quint8 command);
     bool setModeTested(DataModules data);
 
-    TestRDS *testRDS;
-    TestRDS *testRDSNNS;
+    TestRDS *testRDS = nullptr;
+    TestRDS *testRDSNNS = nullptr;
     bool messageRDS(DataModules data);
-
 
 private slots:
     //void configModules();

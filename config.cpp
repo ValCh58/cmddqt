@@ -1,3 +1,6 @@
+#include <QDebug>
+#include <memory>
+
 #include "sport.h"
 #include "config.h"
 #include "ccmbb.h"
@@ -9,12 +12,24 @@
  */
 config::config(QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
 {
+  xmlDoc = std::make_unique<XmlDocument>("config.xml");//!!! 11-07-2024 !!!
+
   initDataPorts();//Чтение настроек портов из файла Config.xml//
   setWindowTitle("CMBB. Конфигурация.");
   setGeometry(492, 239, 349, 240);
-  listCom<<"COM1"<<"COM2"<<"COM3"<<"COM4"<<"COM5"<<"COM6"<<"COM7"<<"COM8"
-         <<"COM9"<<"COM10"<<"COM11"<<"COM12"<<"COM13"<<"COM14"<<"COM15"<<"COM16";
+  //listCom<<"COM1"<<"COM2"<<"COM3"<<"COM4"<<"COM5"<<"COM6"<<"COM7"<<"COM8"
+  //       <<"COM9"<<"COM10"<<"COM11"<<"COM12"<<"COM13"<<"COM14"<<"COM15"<<"COM16";
   infoList = QSerialPortInfo::availablePorts();
+  //-----18-06-24-------------------------------//
+
+  //qDebug() << infoList.size();
+
+  for(int i=0; i < infoList.size(); i++){
+      //qDebug() << infoList.at(i).portName();
+      listCom << infoList.at(i).portName();
+  }
+  //--------------------------------------------//
+
   helpLine1 = new QString("");
   helpLine2 = new QString("");
   //---------------------------------------------------------------//
@@ -92,6 +107,20 @@ config::config(QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
   //----------------------------------------------------------------//
   connect(btOk, SIGNAL(clicked()), this, SLOT(saveConfig()));
   connect(btCnl, SIGNAL(clicked()), this, SLOT(reject()));
+}
+
+
+/**
+ * @brief config::~config
+ */
+config::~config()
+{
+    delete helpLine1;
+    delete helpLine2;
+    //delete xmlDoc; //!!! 11-07-2024 !!!
+    delete cmbBod;
+    delete cmbLine1;
+    delete cmbLine2;
 }
 
 /**
@@ -178,7 +207,7 @@ QComboBox *config::getCmbBod() const
  */
 void config::initDataPorts()
 {
-    xmlDoc = new XmlDocument("config.xml");
+    /*xmlDoc = new XmlDocument("config.xml"); //!!! 11-07-2024 !!!*/
     xmlDoc->parserCfgCom();
 }
 
@@ -248,7 +277,7 @@ void config::changeStopBit(int val)
 void config::saveConfig()
 {
    MainWindow *mwindow = (MainWindow*)parent();
-   xmlDoc = new XmlDocument("config.xml", this);
+    /*xmlDoc = new XmlDocument("config.xml", this); //!!! 11-07-2024 !!!*/
     xmlDoc->saveCfgCom();
 
     if(!mwindow->ports.isEmpty()){
@@ -282,22 +311,4 @@ void config::saveConfig()
     accept();
 }
 
-/**
- * @brief config::~config
- */
-config::~config()
-{
-    if(xmlDoc)
-       delete xmlDoc;
-    if(helpLine1)
-       delete helpLine1;
-    if(helpLine2)
-       delete helpLine1;
-    if(cmbLine1)
-       delete cmbLine1;
-    if(cmbLine2)
-       delete cmbLine2;
-    if(cmbBod)
-       delete cmbBod;
-}
 

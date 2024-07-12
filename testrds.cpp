@@ -45,8 +45,15 @@ TestRDS::TestRDS(QWidget *parent, Qt::WindowFlags f):QDialog(parent, f)
 
 TestRDS::~TestRDS()
 {
+    if(cmdToRdsLine1) delete cmdToRdsLine1;
+    if(cmdToRdsLine2) delete cmdToRdsLine2;
+    if(thrTestLine1) delete thrTestLine1;
+    if(thrTestLine2) delete thrTestLine2;
     if(tmr){delete tmr;}
-
+    delete vBoxBtn;
+    delete vBoxRDS;
+    delete btnWrite;
+    delete btnStop;
 }
 
 //Получим модули ННС /////////////////////////////////////////////////

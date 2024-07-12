@@ -10,7 +10,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QSpinBox>
-#include <QSerialPortInfo>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QThread>
 
 #include "sport.h"
@@ -22,7 +22,8 @@ class config : public QDialog
 
 private:
     void initDataPorts();
-    XmlDocument *xmlDoc;
+    std::unique_ptr<XmlDocument> xmlDoc;
+    //XmlDocument* xmlDoc;
     QStringList listCom;
     void initCmbBox(QComboBox *cmb);
     bool getInfoCom(QString str);
@@ -35,7 +36,7 @@ private:
 
 public:
     config(QWidget *parent = 0, Qt::WindowFlags f = 0);
-    ~config();
+    virtual ~config();
     QComboBox *getCmbBod() const;
 
 

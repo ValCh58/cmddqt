@@ -9,7 +9,7 @@ class ViewModules : public ViewBase
 {
 public:
     ViewModules(QWidget *parent = 0);
-    ~ViewModules();
+    virtual ~ViewModules();
     void headerSize();
 
 private:

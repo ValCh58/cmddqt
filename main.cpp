@@ -1,8 +1,11 @@
-#include "ccmbb.h"
+
 #include <QDir>
 #include <QApplication>
 #include <QTextCodec>
+
+
 #include "config.h"
+#include "ccmbb.h"
 
 /**
  * @brief qMain
@@ -12,22 +15,22 @@
  */
 int main(int argc, char *argv[])
 {
+
     QDir().setCurrent(QFileInfo(argv[0]).absolutePath());
     QCoreApplication::addLibraryPath("./plugins");
 
     Q_INIT_RESOURCE(images);
 
     QApplication a(argc, argv);
-    //QTextCodec::codecForName("KOI8-R");
+    QTextCodec::codecForName("utf-8");
     MainWindow w;
-    config *cnf = new config(&w);
+    std::unique_ptr<config> cnf = std::make_unique<config>(&w);
     if(cnf->exec() == QDialog::Accepted){
-       w.setGeometry(200,200,681,472);
+       w.setGeometry(200,200,810,472);
        w.setWindowTitle("CMBB");
        w.show();
     }else{
-        delete cnf;
-        exit(0);
+        QCoreApplication::exit(0);
     }
     return a.exec();
 }

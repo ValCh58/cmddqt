@@ -4,13 +4,13 @@
 #
 #-------------------------------------------------
 CONFIG += c++14
-QT += core gui serialport widgets
+QT += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4):
 
 TARGET = cmbbqt
 TEMPLATE = app
-
+LIBS += /usr/lib/x86_64-linux-gnu/libQt5SerialPort.so
 
 SOURCES += main.cpp\
     calibrationmbac.cpp \
@@ -101,9 +101,5 @@ HEADERS  += \
     consts.h \
     calibrationcheck.h
 
-RESOURCES += \
-    images.qrc
-
-DISTFILES +=
-
+RESOURCES = images.qrc
 RC_FILE = resource.rc

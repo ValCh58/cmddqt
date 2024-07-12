@@ -83,12 +83,12 @@ QVariant CmbbListModules::data(const QModelIndex &index, int role) const
         //}
         DataModules dm = dataMod->at(index.row());
         uint color = dm.getColorModuleRow();
-        return qVariantFromValue(QColor(color));
+        return QVariant::fromValue(QColor(color));
 
     }
     case Qt::FontRole:{ // Шрифт
          QFont font = QFont("MS Sans Serif", -11, QFont::StyleItalic | QFont::Bold);
-         return qVariantFromValue(font);
+         return QVariant::fromValue(font);
 
     }
 

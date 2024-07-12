@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QObject>
-#include <QSerialPort>
+#include <QtSerialPort/QSerialPort>
 #include <QMap>
 #include <QMutex>
 

@@ -28,7 +28,7 @@
 #include "testdiscrnnc.h"
 #include <QThread>
 #include <QTimer>
-#include <QSerialPortInfo>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QTableWidget>
 
 

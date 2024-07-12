@@ -1,3 +1,4 @@
+#include <QtMath>
 #include <QButtonGroup>
 
 #include "calibrationmbac.h"
@@ -1187,7 +1188,7 @@ bool CalibrationMBAC::readUncalibratedADCval(SPort* sPort, DataModules* modul, q
  * @param idBtn
  */
 quint16 CalibrationMBAC::calcKUKDac(double iGiven, double measured){
-    quint16 retKuk = static_cast<quint16>(round(iGiven + (iGiven - (measured/0.005))));
+    quint16 retKuk = static_cast<quint16>(qRound(iGiven + (iGiven - (measured/0.005))));
     return retKuk;
 }
 
@@ -1197,7 +1198,7 @@ quint16 CalibrationMBAC::calcKUKDac(double iGiven, double measured){
  * @param idBtn
  */
 quint16 CalibrationMBAC::calcKUKAdc(/*double iGiven,*/ double measured, double adc){
-    quint16 retKuk = static_cast<quint16>(round((measured/0.005) - (measured/0.005 - adc)));
+    quint16 retKuk = static_cast<quint16>(qRound((measured/0.005) - (measured/0.005 - adc)));
     return retKuk;
 }
 

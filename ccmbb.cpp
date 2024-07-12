@@ -14,6 +14,7 @@
 #define RDS     1
 #define RDS_NNS 2
 
+
 /**
  * @brief MainWindow::MainWindow
  * @param parent
@@ -35,9 +36,6 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
     loadAdcPloAddr("modules.cfg");
     loadAdcs("analog.cfg");
     viewmodul->setContextMenuPolicy(Qt::CustomContextMenu);
-    testRDS=nullptr;
-    testRDSNNS=nullptr;
-    calibrationMBAC = nullptr;
     connect(viewmodul, &QTableView::customContextMenuRequested, this, &MainWindow::showContextMenu);
 
 }
@@ -75,18 +73,27 @@ void MainWindow::showContextMenu(const QPoint &point){
  */
 MainWindow::~MainWindow()
 {
-    if(subMenuIndication) delete subMenuIndication;
+    if(bufBytesRead) delete bufBytesRead;
+    if(mapAdcs) delete mapAdcs;
+
+    if(proxyModel) delete proxyModel;
+    if(listModul) delete listModul;
+    if(viewmodul) delete viewmodul;
+
+    if(mapAdcPloAddr) delete mapAdcPloAddr;
+    if(listTypeModules) delete listTypeModules;
     if(menuFile) delete menuFile;
-    if(actExit) delete actExit;
     if(menuModules) delete menuModules;
+    if(subMenuIndication) delete subMenuIndication;
+    if(menuService) delete menuService;
+    if(menuHelp) delete menuHelp;
+    if(actExit) delete actExit;
     if(actSearchModule) delete actSearchModule;
     if(actCheckTecModule) delete actCheckTecModule;
     if(actTestModule) delete actTestModule;
     if(actTestRds) delete actTestRds;
     if(actTestRdsHHC) delete actTestRdsHHC;
-    if(menuService) delete menuService;
-    if(listModul) delete listModul;
-    if(proxyModel) delete proxyModel;
+
     if(actIndOn) delete actIndOn;
     if(actIndOff) delete actIndOff;
     if(actIndFlash) delete actIndFlash;
@@ -95,28 +102,24 @@ MainWindow::~MainWindow()
     if(actResetID) delete actResetID;
     if(actResetKo) delete actResetKo;
     if(actMBAC) delete actMBAC;
-    if(menuHelp) delete menuHelp;
+
     if(actAbout) delete actAbout;
     if(actCalibr) delete actCalibr;
     if(actSetting) delete actSetting;
     if(actFindItem) delete actFindItem;
     if(actSetpoint) delete actSetpoint;
     if(toolBar) delete toolBar;
-    if(viewmodul) delete viewmodul;
-    if(bufBytesRead) delete bufBytesRead;
-    if(listTypeModules) delete listTypeModules;
-    if(mapAdcPloAddr) delete mapAdcPloAddr;
-    if(mapAdcs) delete mapAdcs;
-
-    //if(calibr) delete calibr; //???
-    //if(setanalog) delete setanalog; //???
-    //if(rateConst) delete rateConst; //???
-    //if(setModule) delete setModule; //???
-
     if(calibrationMBAC) delete calibrationMBAC;
     if(testRDS) delete testRDS;
     if(testRDSNNS) delete testRDSNNS;
-}
+
+    if(calibrationMBAC) delete calibrationMBAC;
+    if(calibr) delete calibr;
+    if(setanalog) delete setanalog;
+    if(rateConst) delete rateConst;
+    if(setModule) delete setModule;
+ }
+
 /**
  * @brief MainWindow::activateProgress
  */
@@ -128,7 +131,6 @@ void MainWindow::activateProgress()
     connect(this, SIGNAL(startProgress()), prg, SLOT(showProgress()));
     connect(this, SIGNAL(stopProgress()), prg, SLOT(hideProgress()));
     connect(this, SIGNAL(changeProgress(int)), prg, SLOT(nextStep(int)));
-
 }
 
 /**
@@ -384,6 +386,7 @@ bool MainWindow::loadTypeModules(QString file)
         }
         const char* s = n->Attribute("Name");
         if(Assert_x(s, "Файл типов модулей", "Указанный модуль без имени(Name)")){
+
            modules.setName(QString::fromLocal8Bit(s));
         }
         s = n->Attribute("Color");
@@ -395,6 +398,7 @@ bool MainWindow::loadTypeModules(QString file)
               modules.setColor(QString::fromLocal8Bit(s).toUInt());
            }
         }
+
         listTypeModules->append(modules);
     }
     delete cfg;
@@ -512,16 +516,16 @@ QMap<QString, AdcPloAddr> *MainWindow::getMapAdcPloAddr() const
 void MainWindow::loadAdcPloAddr(QString strFile)
 {
     char buf[160];
-    QFile *file = new QFile();
+    QFile file(strFile);
     
-    if(!file->exists(strFile)){
+    if(!file.exists(strFile)){
         QMessageBox::critical(this, "Сообщение", "Ошибка открытия файла modules.cfg ", QMessageBox::Ok);
         return;
     }
 
-    file->setFileName(strFile);
-    if(file->open(QIODevice::ReadOnly|QIODevice::Text)){
-       while(file->readLine(buf, 160)!=-1){
+    file.setFileName(strFile);
+    if(file.open(QIODevice::ReadOnly|QIODevice::Text)){
+       while(file.readLine(buf, 160)!=-1){
              QString s(buf);
              if(s.count(';') != 9){
                  continue;
@@ -533,7 +537,7 @@ void MainWindow::loadAdcPloAddr(QString strFile)
              adcplo.setAdcAddr(static_cast<quint16>(list[7].toUShort()));
              mapAdcPloAddr->insert(key,adcplo);
        }
-       file->close();
+       file.close();
     }
 }
 
@@ -544,18 +548,20 @@ void MainWindow::loadAdcPloAddr(QString strFile)
 void MainWindow::loadAdcs(QString fileName)
 {
     char buf[1024];
-    QFile *file = new QFile();
+    //QFile *file = new QFile();
+    QFile file(fileName);
 
-    if(!file->exists(fileName)){
+    if(!file.exists(fileName)){
         QMessageBox::critical(this, "Сообщение", "Ошибка открытия файла analog.cfg ", QMessageBox::Ok);
         return;
     }
 
-    file->setFileName(fileName);
-    if(file->open(QIODevice::ReadOnly|QIODevice::Text)){
-       while(file->readLine(buf, 1024)!=-1){
+    file.setFileName(fileName);
+    if(file.open(QIODevice::ReadOnly|QIODevice::Text)){
+       QByteArray *ba = new QByteArray(buf);
+       while(file.readLine(buf, 1024)!=-1){
              //Изменим кодировку===============//
-             QTextStream ts(new QByteArray(buf));
+             QTextStream ts(ba);
              ts.setCodec("Windows-1251");
              QString s=ts.readAll();
              //================================//
@@ -569,7 +575,8 @@ void MainWindow::loadAdcs(QString fileName)
                 mapAdcs->insert(key,adcs);
              }
        }
-       file->close();
+       file.close();
+       delete ba;
     }
 }
 

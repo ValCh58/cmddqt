@@ -15,6 +15,7 @@ LogFile::LogFile(QString pathFile)
 LogFile::~LogFile()
 {
     file->close();
+    delete file;
 }
 
 

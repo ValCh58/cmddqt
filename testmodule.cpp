@@ -9,7 +9,7 @@
 #include "ccmbb.h"
 #include "testmodule.h"
 #include "test.h"
-#include "tinyxml\tinyxml.h"
+#include "tinyxml/tinyxml.h"
 #include "testtimer.h"
 
 

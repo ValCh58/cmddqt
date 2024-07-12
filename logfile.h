@@ -13,7 +13,7 @@ class LogFile
 {
 public:
     LogFile(QString pathFile);
-    ~LogFile();
+    virtual ~LogFile();
     void appendString(QString msg);
     QString getHexFromBuf(char* buf, int size);
     void addString(QString str);
@@ -21,6 +21,7 @@ public:
 
 
 private:
+
     QString logDir;
     QString logFile;
     QFile *file;

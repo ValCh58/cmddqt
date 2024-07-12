@@ -24,34 +24,5 @@
         <file>../cmbbImages/hand_point.png</file>
         <file>../cmbbImages/measure.png</file>
         <file>../cmbbImages/network_adapter.png</file>
-        <file>../cmbbImages/arrow_left.png</file>
-        <file>../cmbbImages/arrow_right.png</file>
-        <file>../cmbbImages/bullet_error.png</file>
-        <file>../cmbbImages/svet2.png</file>
-        <file>../cmbbImages/svet1.png</file>
-        <file>../cmbbImages/ram1.png</file>
-        <file>../cmbbImages/port1.png</file>
-        <file>../cmbbImages/mbb2.png</file>
-        <file>../cmbbImages/mbb1.png</file>
-        <file>../cmbbImages/discr.png</file>
-        <file>../cmbbImages/conn1.png</file>
-        <file>../cmbbImages/chip.png</file>
-        <file>../cmbbImages/anal.png</file>
-        <file>../cmbbImages/btnYes.png</file>
-        <file>../cmbbImages/btnStop.png</file>
-        <file>../cmbbImages/btnStart.png</file>
-        <file>../cmbbImages/btnRep.png</file>
-        <file>../cmbbImages/btnReady.png</file>
-        <file>../cmbbImages/btnPrev.png</file>
-        <file>../cmbbImages/btnNo.png</file>
-        <file>../cmbbImages/btnNext.png</file>
-        <file>../cmbbImages/btnClear.png</file>
-        <file>../cmbbImages/qt.png</file>
-        <file>../cmbbImages/tools folder.png</file>
-        <file>../cmbbImages/stethoscope.png</file>
-        <file>../cmbbImages/check_box.png</file>
-        <file>../cmbbImages/document_shred.png</file>
-        <file>../cmbbImages/stop.png</file>
-        <file>../cmbbImages/ind2.png</file>
     </qresource>
 </RCC>

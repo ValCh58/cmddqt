@@ -117,7 +117,7 @@ bool MyDataPort::preparedDataRead(char addr, int cmd)
  * @param lowByte
  * @param hiByte
  */
-void MyDataPort::writeDataAcp(quint8 adrMod, quint8 cmd, quint8 numDac, quint8 srvDat, quint8 *lowByte, quint8 *hiByte)
+void MyDataPort::writeDataAcp(quint8 adrMod, quint8 cmd/*, quint8 numDac,quint8 srvDat,  quint8 *lowByte, quint8 *hiByte*/)
 {
     bool flOK = false;
 //    TX[2] = (*lowByte & 0x00FF);

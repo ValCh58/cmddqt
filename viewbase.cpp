@@ -6,10 +6,7 @@ ViewBase::ViewBase(QWidget *parent):QTableView(parent)
     setInitStyle();
 }
 
-void ViewBase::headerSize()
-{
-
-}
+ViewBase::~ViewBase(){}
 
 void ViewBase::dynResizeTable()
 {

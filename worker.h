@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QThread>
-#include <QSerialPort>
+#include <QtSerialPort/QSerialPort>
 #include <QList>
 
 

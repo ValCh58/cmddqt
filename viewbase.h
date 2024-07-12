@@ -8,7 +8,7 @@ class ViewBase : public QTableView
 {
 public:
     ViewBase(QWidget *parent);
-    void headerSize();
+    virtual ~ViewBase();
 
 private:
     void dynResizeTable();
